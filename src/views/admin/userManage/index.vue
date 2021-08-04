@@ -84,7 +84,7 @@
         <template slot-scope="scope">
           <el-button size="mini"
                      type="text"
-                     @click="handleUpdate(scope.row)">编辑
+                     @click="showEditUserDialog(scope.row)">编辑
           </el-button>
           <el-button size="mini"
                      type="text"
@@ -104,11 +104,15 @@
       :total="total"
       style="text-align: right">
     </el-pagination>
+    <EditUserDialog :user-info="editUserInfo"
+                    :user-form-dialog-visible="editUserDialogVisible"
+                    :close-edit-user-dialog="closeEditUserDialog"/>
   </div>
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+  import {mapActions} from 'vuex';
+  import EditUserDialog from './components/EditUserDialog'
 
   const parseTime = (dateData) => {
     let date = new Date(dateData);
@@ -148,7 +152,18 @@
         total: 0,
         roleList: [],
         parseTime,
+        editUserDialogVisible: false,
+        editUserInfo: {
+          id: -1,
+          username: '',
+          phone: '',
+          email: '',
+          roleId: -1,
+        }
       }
+    },
+    components: {
+      EditUserDialog
     },
     created() {
       this.getAllRole().then(res => {
@@ -208,6 +223,30 @@
         }).catch(err => {
 
         })
+      },
+      showEditUserDialog(info) {
+        this.editUserInfo = {
+          id: info.id,
+          username: info.username,
+          phone: info.phone,
+          email: info.email,
+          roleId: info.roleId,
+        };
+        this.editUserDialogVisible = true;
+      },
+      closeEditUserDialog(ifSubmit) {
+        this.editUserDialogVisible = false;
+        this.editUserInfo = {
+          id: -1,
+          username: '',
+          phone: '',
+          email: '',
+          roleId: -1,
+        };
+        // console.log('ifSubmit =', ifSubmit);
+        if (ifSubmit) {
+          this.onSearch();
+        }
       },
     }
   }

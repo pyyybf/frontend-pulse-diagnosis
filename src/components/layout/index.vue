@@ -13,8 +13,8 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item @click.native="handleLogout">退出</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-user">个人信息</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-switch-button" @click.native="handleLogout">退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -24,37 +24,15 @@
       <el-aside width="16vw">
         <!-- 这里是个菜单厚 -->
         <el-menu class="el-menu-vertical-demo" router style="height: 100%">
-          <!--          <el-submenu index="1">-->
-          <!--            <template slot="title">-->
-          <!--              <span>导航一</span>-->
-          <!--            </template>-->
-          <!--            <el-menu-item index="1-1" @click.native="addTab('选项1')">选项1</el-menu-item>-->
-          <!--            <el-menu-item index="1-2" @click.native="addTab('选项2')">选项2</el-menu-item>-->
-          <!--            <el-menu-item index="1-3" @click.native="addTab('选项3')">选项3</el-menu-item>-->
-          <!--          </el-submenu>-->
-          <!--          <el-menu-item index="2">-->
-          <!--            <span slot="title">导航二</span>-->
-          <!--          </el-menu-item>-->
-          <!--          <el-menu-item index="3">-->
-          <!--            <span slot="title">导航三</span>-->
-          <!--          </el-menu-item>-->
-          <!--          <el-menu-item index="4">-->
-          <!--            <span slot="title">导航四</span>-->
-          <!--          </el-menu-item>-->
-          <el-submenu v-if="menuList&&menuList.length>0&&menuList[0].children" index="1">
+          <el-submenu v-for="subMenu of menuList" v-if="subMenu.children" index="1">
             <template slot="title">
-              <span>{{menuList[0].title}}</span>
+              <span>{{subMenu.title}}</span>
             </template>
-            <el-menu-item v-for="menuItem of menuList[0].children" :index="menuItem.index"
+            <el-menu-item v-for="menuItem of subMenu.children" :index="menuItem.index"
                           @click.native="addTab(menuItem.title)">{{menuItem.title}}
             </el-menu-item>
           </el-submenu>
-          <el-menu-item v-if="menuList&&menuList.length>0&&menuList[0].children"
-                        v-for="menuItem of menuList&&menuList.slice(1)" :index="menuItem.index"
-                        @click.native="addTab(menuItem.title)">
-            <span slot="title">{{menuItem.title}}</span>
-          </el-menu-item>
-          <el-menu-item v-else-if="menuList&&menuList.length>0" v-for="menuItem of menuList" :index="menuItem.index"
+          <el-menu-item v-for="menuItem of menuList" v-if="!menuItem.children" :index="menuItem.index"
                         @click.native="addTab(menuItem.title)">
             <span slot="title">{{menuItem.title}}</span>
           </el-menu-item>
@@ -86,15 +64,6 @@
       return {
         username: localStorage.getItem('username'),
         editableTabsValue: '1',
-        // editableTabs: [{
-        //   title: 'Tab 1',
-        //   name: '1',
-        //   content: 'Tab 1 content'
-        // }, {
-        //   title: 'Tab 2',
-        //   name: '2',
-        //   content: 'Tab 2 content'
-        // }],
         editableTabs: [{
           title: '主页',
           name: '主页',
@@ -102,6 +71,9 @@
         tabIndex: 1,
         editableTabNames: ["主页"],
       }
+    },
+    mounted() {
+      console.log("11111111111111111111111111111", this.menuList)
     },
     computed: {
       ...mapGetters([
@@ -111,44 +83,9 @@
         'menuList',
       ]),
     },
-    mounted() {
-      // console.log(this.rolePermission)
-      // var that = this
-      // this.rolePermission.forEach(permission => {
-      //   if (permission === '文献管理') {
-      //     that.menuList.push({
-      //       title: '文献管理',
-      //       children: [
-      //         {
-      //           title: '古籍管理',
-      //           index: '/admin/ancientBookManage',
-      //         },
-      //         {
-      //           title: '现代文献管理',
-      //           index: '/admin/modernBookManage',
-      //         },
-      //         {
-      //           title: '结构化文本管理',
-      //           index: '/admin/structuredTextManage',
-      //         },
-      //       ]
-      //     })
-      //   } else if (permission === '用户管理') {
-      //     that.menuList.push({
-      //       title: '用户管理',
-      //       index: '/admin/userManage',
-      //     })
-      //   } else if (permission === '角色权限管理') {
-      //     that.menuList.push({
-      //       title: '角色权限管理',
-      //       index: '/admin/permissionManage',
-      //     })
-      //   }
-      // })
-    },
     watch: {
       '$route.path': function (newVal, oldVal) {
-        console.log('ROUTE PATH', newVal, oldVal);
+        // console.log('ROUTE PATH', newVal, oldVal);
         this.setSingleMenuItem(newVal);
       }
     },
@@ -171,7 +108,7 @@
         });
         this.editableTabsValue = targetName;
         this.editableTabNames.push(targetName);
-        console.log('after add', this.editableTabNames)
+        // console.log('after add', this.editableTabNames)
       },
       removeTab(targetName) {
         var that = this;
@@ -200,7 +137,7 @@
           return tab.name !== targetName
         });
         this.editableTabNames = this.editableTabNames.filter(name => name !== activeTitle)
-        console.log('after remove', this.editableTabNames)
+        // console.log('after remove', this.editableTabNames)
       },
       changeTab(targetTab) {
         // console.log(targetTab)
