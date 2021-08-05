@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item>
           已经有账号？点击
-          <el-button type="text">登录</el-button>
+          <el-button type="text" @click="goLogin">登录</el-button>
           继续访问
           <br/>
           <el-button class="register-button" type="primary" :loading="loading" @click="handleRegister">注册</el-button>
@@ -122,6 +122,9 @@
             return false
           }
         })
+      },
+      goLogin(){
+        this.$router.push({path: '/login'});
       }
     }
   }
