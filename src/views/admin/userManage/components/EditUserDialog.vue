@@ -1,5 +1,6 @@
 <template>
-  <el-dialog title="修改用户信息" :visible.sync="userFormDialogVisible" width="40%" :show-close="false" :close-on-click-modal="false">
+  <el-dialog title="修改用户信息" :visible.sync="userFormDialogVisible" width="40%" :show-close="false"
+             :close-on-click-modal="false">
     <el-form class="user-form" :model="userInfo" label-position="right" label-width="60px">
       <el-form-item label="用户名">
         <el-input v-model="userInfo.username" autocomplete="off"></el-input>
@@ -61,11 +62,13 @@
       submit() {
         this.editUser({
           id: this.userInfo.id,
-          username: this.userInfo.username,
-          phone: this.userInfo.phone,
-          email: this.userInfo.email,
-          password: this.password !== '' ? sha256(this.password) : null,
-          roleId: this.userInfo.roleId,
+          userForm: {
+            username: this.userInfo.username,
+            phone: this.userInfo.phone,
+            email: this.userInfo.email,
+            password: this.password !== '' ? sha256(this.password) : null,
+            roleId: this.userInfo.roleId,
+          },
         }).then(res => {
           this.close(true)
         }).catch(err => {

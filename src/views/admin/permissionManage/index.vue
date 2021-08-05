@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: left">
     <el-button type="primary" plain size="medium" icon="el-icon-plus"
-               @click="addRoleDialogVisible=true">新增角色
+               @click="showEditRoleDialog(undefined,false)">新增角色
     </el-button>
     <br><br>
     <el-table
@@ -38,7 +38,7 @@
         <template slot-scope="scope">
           <el-button size="mini"
                      type="text"
-                     @click="showEditRoleDialog(scope.row)">编辑
+                     @click="showEditRoleDialog(scope.row,true)">编辑
           </el-button>
         </template>
       </el-table-column>
@@ -54,8 +54,7 @@
       :total="total"
       style="text-align: right">
     </el-pagination>
-    <AddRoleDialog :add-role-dialog-visible="addRoleDialogVisible" :close-add-role-dialog="closeAddRoleDialog"/>
-    <EditRoleDialog :role-info="editRoleInfo"
+    <EditRoleDialog :edit="ifEdit" :role-info="editRoleInfo"
                     :edit-role-dialog-visible="editRoleDialogVisible"
                     :close-edit-role-dialog="closeEditRoleDialog"/>
   </div>
@@ -63,7 +62,6 @@
 
 <script>
   import {mapActions} from "vuex";
-  import AddRoleDialog from './components/AddRoleDialog';
   import EditRoleDialog from './components/EditRoleDialog';
 
   const parseTime = (dateData) => {
@@ -86,7 +84,7 @@
   export default {
     name: "PermissionManage",
     components: {
-      AddRoleDialog, EditRoleDialog
+      EditRoleDialog
     },
     data() {
       return {
@@ -104,7 +102,8 @@
           name: '',
           scene: 0,
           permission: '',
-        }
+        },
+        ifEdit: false,
       }
     },
     created() {
@@ -133,19 +132,23 @@
 
         })
       },
-      closeAddRoleDialog(ifSubmit) {
-        this.addRoleDialogVisible = false;
-        if (ifSubmit) {
-          this.getRoleList();
+      showEditRoleDialog(info, ifEdit) {
+        if (info === undefined) {
+          this.editRoleInfo = {
+            id: -1,
+            name: '',
+            scene: 0,
+            permission: '',
+          };
+        } else {
+          this.editRoleInfo = {
+            id: info.id,
+            name: info.name,
+            scene: info.scene,
+            permission: info.permission,
+          };
         }
-      },
-      showEditRoleDialog(info) {
-        this.editRoleInfo = {
-          id: info.id,
-          name: info.name,
-          scene: info.scene,
-          permission: info.permission,
-        };
+        this.ifEdit = ifEdit;
         this.editRoleDialogVisible = true;
       },
       closeEditRoleDialog(ifSubmit) {

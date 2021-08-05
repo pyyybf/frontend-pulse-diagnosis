@@ -1,5 +1,8 @@
 <template>
-  <el-dialog title="修改角色" :visible.sync="editRoleDialogVisible" :show-close="false" :close-on-click-modal="false"
+  <el-dialog :title="edit?'修改角色':'新增角色'"
+             :visible.sync="editRoleDialogVisible"
+             :show-close="false"
+             :close-on-click-modal="false"
              width="40%">
     <el-form class="edit-role" :model="roleInfo" label-position="right" label-width="60px">
       <el-form-item label="角色名">
@@ -39,6 +42,7 @@
       roleInfo: Object,
       editRoleDialogVisible: Boolean,
       closeEditRoleDialog: Function,
+      edit: Boolean,
     },
     data() {
       return {
@@ -61,9 +65,17 @@
     },
     methods: {
       ...mapActions([
+        'addRole',
         'editRole',
       ]),
       close(ifSubmit) {
+        this.roleInfo = {
+          id: -1,
+          name: '',
+          scene: 0,
+          permission: '',
+        };
+        this.permissionList = [];
         this.editRoleDialogVisible = false;
         this.closeEditRoleDialog(ifSubmit);
       },
@@ -76,16 +88,30 @@
           tmpPermissionArr.push(PERMISSIONS_DATA[this.roleInfo.scene][idx])
         })
         this.roleInfo.permission = tmpPermissionArr.join(',');
-        this.editRole({
-          id: this.roleInfo.id,
-          name: this.roleInfo.name,
-          scene: this.roleInfo.scene,
-          permission: this.roleInfo.permission,
-        }).then(res => {
-          this.close(true);
-        }).catch(err => {
+        if (this.edit) {
+          this.editRole({
+            id: this.roleInfo.id,
+            roleForm:{
+              name: this.roleInfo.name,
+              scene: this.roleInfo.scene,
+              permission: this.roleInfo.permission,
+            },
+          }).then(res => {
+            this.close(true);
+          }).catch(err => {
 
-        })
+          })
+        } else {
+          this.addRole({
+            name: this.roleInfo.name,
+            scene: this.roleInfo.scene,
+            permission: this.roleInfo.permission,
+          }).then(res => {
+            this.close(true);
+          }).catch(err => {
+
+          })
+        }
       },
     }
   }

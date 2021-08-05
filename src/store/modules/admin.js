@@ -74,7 +74,7 @@ const admin = {
     },
     editUser({}, data) {
       return new Promise((resolve, reject) => {
-        updateUserByIdAPI(data).then(response => {
+        updateUserByIdAPI(data.id, data.userForm).then(response => {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
@@ -100,9 +100,9 @@ const admin = {
         })
       });
     },
-    editRole({},data){
+    editRole({}, data) {
       return new Promise((resolve, reject) => {
-        updateRoleByIdAPI(data).then(response => {
+        updateRoleByIdAPI(data.id, data.roleForm).then(response => {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
