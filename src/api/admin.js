@@ -38,9 +38,7 @@ export const delUserByIdAPI = (data) => {
   })
 }
 
-export const updateUserByIdAPI = (data) => {
-  const id = data.id;
-  delete data.id;
+export const updateUserByIdAPI = (id, data) => {
   return HttpRequest.request({
     url: `${api.adminPre}/updateUserById/${id}`,
     method: 'PUT',
@@ -56,9 +54,7 @@ export const addRoleAPI = (data) => {
   })
 }
 
-export const updateRoleByIdAPI = (data) => {
-  const id = data.id;
-  delete data.id;
+export const updateRoleByIdAPI = (id, data) => {
   return HttpRequest.request({
     url: `${api.adminPre}/updateRoleById/${id}`,
     method: 'PUT',
