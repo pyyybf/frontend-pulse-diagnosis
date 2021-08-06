@@ -73,7 +73,7 @@
       }
     },
     mounted() {
-      console.log("11111111111111111111111111111", this.menuList)
+      // console.log("11111111111111111111111111111", this.menuList)
     },
     computed: {
       ...mapGetters([
@@ -86,7 +86,11 @@
     watch: {
       '$route.path': function (newVal, oldVal) {
         // console.log('ROUTE PATH', newVal, oldVal);
-        this.setSingleMenuItem(newVal);
+        this.setSingleMenuItem({
+          path: newVal,
+          query: this.$route.query
+        });
+        // console.log(this.$route.query)
       }
     },
     methods: {
@@ -161,13 +165,10 @@
             targetMenuItem = menuItem
           }
         }
-        // var targetMenuItem = this.menuList.filter(menuItem => {
-        //   return menuItem.title === targetTab.label
-        // })[0]
-        // console.log(this.$route.path, targetMenuItem.index)
         if (this.$route.path.startsWith(targetMenuItem.index)) return
         this.$router.push({
-          path: `${targetMenuItem.index}/${targetMenuItem.position}`
+          path: `${targetMenuItem.index}/${targetMenuItem.position}`,
+          query: targetMenuItem.query,
         })
       }
     },
@@ -218,5 +219,17 @@
 
   .el-tabs__nav {
     line-height: 30px;
+  }
+
+  .el-collapse-item {
+    text-align: left;
+  }
+
+  .el-collapse-item__header {
+    font-size: 14px;
+  }
+
+  .el-collapse-item__content{
+    font-size: 14px;
   }
 </style>

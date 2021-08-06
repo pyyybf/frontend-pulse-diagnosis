@@ -87,6 +87,72 @@ export default new Router({
     {
       path: '/user',
       component: Layout,
+      redirect: '/user/home',
+      children: [
+        {
+          path: 'home',
+          component: () => import('@/views/user/index'),
+          name: '用户主页',
+          meta: {title: '用户主页', noCache: true},
+        },
+        {
+          path: 'ancientBook',
+          component: () => import('@/views/user/ancientBook/index'),
+          name: '古籍阅读',
+          meta: {title: '古籍阅读', noCache: true},
+        },
+        {
+          path: 'modernText',
+          component: () => import('@/views/user/modernText/index'),
+          name: '现代文献阅读',
+          meta: {title: '现代文献阅读', noCache: true},
+        },
+        {
+          path: 'structuredText',
+          component: () => import('@/views/user/structuredText/index'),
+          name: '结构化文本阅读',
+          meta: {title: '结构化文本阅读', noCache: true},
+        },
+        {
+          path: 'term',
+          component: () => import('@/views/user/term/index'),
+          name: '段落分析',
+          meta: {title: '段落分析', noCache: true},
+        },
+        {
+          path: 'diagram',
+          component: () => import('@/views/user/diagram/index'),
+          name: '脉图分类',
+          meta: {title: '脉图分类', noCache: true},
+        },
+        {
+          path: 'question',
+          component: () => import('@/views/user/question/index'),
+          name: '在线练习',
+          meta: {title: '在线练习', noCache: true},
+          redirect:'/user/question/practiceList',
+          children: [
+            {
+              path: 'practiceList',
+              component: () => import('@/views/user/question/practiceList'),
+              name: '练习记录',
+              meta: {title: '练习记录', noCache: true},
+            },
+            {
+              path: 'practiceDetail',
+              component: () => import('@/views/user/question/practiceDetail'),
+              name: '练习详情',
+              meta: {title: '练习详情', noCache: true},
+            },
+            {
+              path: 'newPractice',
+              component: () => import('@/views/user/question/newPractice'),
+              name: '新练习',
+              meta: {title: '新练习', noCache: true},
+            },
+          ]
+        },
+      ]
     },
   ]
 })
