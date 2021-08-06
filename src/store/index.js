@@ -4,6 +4,7 @@ import getters from "./getters"
 import user from './modules/user'
 import app from './modules/app'
 import admin from './modules/admin'
+import question from './modules/question'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     user,
     app,
     admin,
+    question,
   },
   state: {},
   mutations: {},

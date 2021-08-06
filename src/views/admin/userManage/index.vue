@@ -204,7 +204,7 @@
       },
       onSearch() {
         this.userInfoQuery.startTime = this.timeArr[0] ? parseTime(this.timeArr[0]) : null
-        this.userInfoQuery.endTime = this.timeArr[0] ? parseTime(this.timeArr[1]) : null
+        this.userInfoQuery.endTime = this.timeArr[1] ? parseTime(this.timeArr[1]) : null
         this.getAllUserInfo({
           ...this.userInfoQuery,
           ...this.listQuery,
