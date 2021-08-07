@@ -58,7 +58,7 @@ router.beforeEach(async (to, from, next) => {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roleScene && store.getters.roleScene.length > 0
       if (hasRoles && (!to.path.startsWith('/admin') || store.getters.roleScene === 'ADMIN')) {
-        console.log('hasRoles: ' + store.getters.roleScene)
+        // console.log('hasRoles: ' + store.getters.roleScene)
         if (toPath === to.path) {
           next()
         } else {
