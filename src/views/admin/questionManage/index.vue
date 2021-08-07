@@ -31,9 +31,9 @@
       :multiple="false"
       :limit="1"
       :show-file-list="false">
-      <el-button type="primary" plain size="medium" icon="el-icon-upload">批量导入</el-button>
+      <el-button type="primary" plain size="medium" icon="el-icon-upload" :loading="importLoading">批量导入</el-button>
     </el-upload>
-    <el-button type="primary" plain size="medium" icon="el-icon-download"
+    <el-button type="primary" plain size="medium" icon="el-icon-download" :loading="exportLoading"
                @click="handleDownload">批量导出
     </el-button>
     <br><br>
@@ -156,6 +156,8 @@
         ifEdit: false,
         multipleSelection: [],
         loading: false,
+        importLoading: false,
+        exportLoading: false,
       }
     },
     components: {EditQuestionDialog},
@@ -259,6 +261,7 @@
         }
       },
       handleUpload(params) {
+        this.importLoading = true;
         const _file = params.file;
         var data = new FormData();
         data.append("inputFile", this.file)
@@ -270,11 +273,13 @@
         // 发起请求
         this.uploadQuestion(formData).then(res => {
           this.onSearch();
+          this.importLoading = false;
         }).catch(err => {
-
+          this.importLoading = false;
         })
       },
       handleDownload() {
+        this.exportLoading = true;
         var ids = [];
         this.multipleSelection.forEach(question => {
           ids.push(question.id);
@@ -291,8 +296,9 @@
             link.click();
             window.URL.revokeObjectURL(link.href);
           }
-        }).catch(err=>{
-
+          this.exportLoading = false;
+        }).catch(err => {
+          this.exportLoading = false;
         })
       },
     }

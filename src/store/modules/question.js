@@ -76,7 +76,6 @@ const question = {
     downloadQuestion({}, data) {
       return new Promise((resolve, reject) => {
         downloadQuestionAPI(data).then(response => {
-          console.log(response)
           if (response.status === 200) {
             resolve(response.data)
           } else {
