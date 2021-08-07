@@ -23,25 +23,31 @@
     <el-container class="sub-container">
       <el-aside width="16vw">
         <!-- 这里是个菜单厚 -->
-        <el-menu class="el-menu-vertical-demo" router style="height: 100%">
-          <el-submenu v-for="subMenu of menuList" v-if="subMenu.children" index="1">
+        <el-menu class="el-menu-vertical-demo" @select="changeMenu" router style="height: 100%">
+          <el-submenu v-for="subMenu of menuList"
+                      v-if="subMenu.children"
+                      index="1">
             <template slot="title">
               <span>{{subMenu.title}}</span>
             </template>
-            <el-menu-item v-for="menuItem of subMenu.children" :index="menuItem.index"
-                          @click.native="addTab(menuItem.title)">{{menuItem.title}}
+            <el-menu-item v-for="menuItem of subMenu.children"
+                          :index="menuItem.index"
+                          @click.native="addTab(menuItem.title,menuItem.index)">
+              {{menuItem.title}}
             </el-menu-item>
           </el-submenu>
-          <el-menu-item v-for="menuItem of menuList" v-if="!menuItem.children" :index="menuItem.index"
-                        @click.native="addTab(menuItem.title)">
+          <el-menu-item v-for="menuItem of menuList"
+                        v-if="!menuItem.children"
+                        :index="menuItem.index"
+                        @click.native="addTab(menuItem.title,menuItem.index)">
             <span slot="title">{{menuItem.title}}</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
-        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" @tab-click="changeTab">
+        <el-tabs v-model="editableTabValue" type="card" closable @tab-remove="removeTab" @tab-click="changeTab">
           <el-tab-pane
-            v-for="(item, index) in editableTabs"
+            v-for="item in editableTabs"
             :key="item.name"
             :label="item.title"
             :name="item.name"
@@ -63,17 +69,15 @@
     data() {
       return {
         username: localStorage.getItem('username'),
-        editableTabsValue: '1',
+        editableTabValue: '',
         editableTabs: [{
           title: '主页',
-          name: '主页',
+          name: `/${localStorage.getItem('roleScene')}/home`,
+          // index: `/${localStorage.getItem('roleScene')}/home`
         }],
-        tabIndex: 1,
         editableTabNames: ["主页"],
+        menuItemValue: ''
       }
-    },
-    mounted() {
-      // console.log("11111111111111111111111111111", this.menuList)
     },
     computed: {
       ...mapGetters([
@@ -85,12 +89,16 @@
     },
     watch: {
       '$route.path': function (newVal, oldVal) {
-        // console.log('ROUTE PATH', newVal, oldVal);
         this.setSingleMenuItem({
           path: newVal,
           query: this.$route.query
         });
-        // console.log(this.$route.query)
+      },
+      editableTabValue: function (newVal, oldVal) {
+        console.log('editableTabValue change to', newVal)
+      },
+      menuItemValue: function (newVal, oldVal) {
+        console.log('menuItemValue change to', newVal)
       }
     },
     methods: {
@@ -103,26 +111,23 @@
           this.$router.push({path: '/'});
         })
       },
-      addTab(targetName) {
+      addTab(targetName, targetIndex) {
         if (this.editableTabNames.indexOf(targetName) !== -1) return
-        // let newTabName = ++this.tabIndex + '';
         this.editableTabs.push({
           title: targetName,
-          name: targetName,
+          name: targetIndex,
         });
-        this.editableTabsValue = targetName;
+        this.editableTabValue = targetIndex;
         this.editableTabNames.push(targetName);
-        // console.log('after add', this.editableTabNames)
       },
       removeTab(targetName) {
         var that = this;
         let tabs = this.editableTabs;
-        let activeName = this.editableTabsValue;
+        let activeName = this.editableTabValue;
         let activeTitle;
         if (activeName === targetName) {
           tabs.forEach((tab, index) => {
             if (tab.name === targetName) {
-              // console.log(tab)
               let nextTab = tabs[index + 1] || tabs[index - 1];
               if (nextTab) {
                 activeName = nextTab.name;
@@ -130,21 +135,18 @@
               that.changeTab({
                 label: nextTab.title,
               })
-              // that.editableTabNames.splice(this.editableTabNames.indexOf(nextTab.title), 1);
             }
           });
         }
 
-        this.editableTabsValue = activeName;
+        this.editableTabValue = activeName;
         this.editableTabs = tabs.filter(tab => {
           if (tab.name === targetName) activeTitle = tab.title;
           return tab.name !== targetName
         });
         this.editableTabNames = this.editableTabNames.filter(name => name !== activeTitle)
-        // console.log('after remove', this.editableTabNames)
       },
       changeTab(targetTab) {
-        // console.log(targetTab)
         if (targetTab.label === '主页') {
           if (!this.$route.path.startsWith(`/${this.roleScene.toLowerCase()}/home`)) {
             this.$router.push({
@@ -170,6 +172,9 @@
           path: `${targetMenuItem.index}/${targetMenuItem.position}`,
           query: targetMenuItem.query,
         })
+      },
+      changeMenu(index, indexPath) {
+        this.editableTabValue = index;
       }
     },
   }
@@ -229,7 +234,7 @@
     font-size: 14px;
   }
 
-  .el-collapse-item__content{
+  .el-collapse-item__content {
     font-size: 14px;
   }
 </style>

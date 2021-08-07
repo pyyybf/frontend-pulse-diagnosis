@@ -1,6 +1,6 @@
 const app = {
   state: {
-    menuList: []
+    menuList: localStorage.getItem('menuList') ? JSON.parse(localStorage.getItem('menuList')) : [],
   },
   mutations: {
     set_menuList: (state, data) => {
@@ -113,10 +113,8 @@ const app = {
         }
       })
       localStorage.setItem('menuList', JSON.stringify(state.menuList));
-      // console.log(state.menuList)
     },
     set_singleMenuItem: (state, data) => {
-      console.log('set_singleMenuItem data =', data)
       for (let i = 0; i < state.menuList.length; i++) {
         if (state.menuList[i].children) {
           for (let j = 0; j < state.menuList[i].children.length; j++) {
@@ -130,13 +128,11 @@ const app = {
           state.menuList[i].query = data.query;
         }
       }
-      // console.log(state.menuList)
       localStorage.setItem('menuList', JSON.stringify(state.menuList));
     },
   },
   actions: {
     setMenuList({commit}, data) {
-      // console.log('setMenuList', data)
       commit('set_menuList', data);
     },
     setSingleMenuItem({commit}, data) {

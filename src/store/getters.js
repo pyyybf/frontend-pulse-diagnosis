@@ -6,7 +6,7 @@ const getters = {
   roleName: state => state.user.roleName ? state.user.roleName : localStorage.getItem('roleName'),
   rolePermission: state => (state.user.rolePermission.length && state.user.rolePermission.length > 0) ? state.user.rolePermission : JSON.parse(localStorage.getItem('rolePermission')),
 
-  menuList: state => (state.app.menuList.length && state.app.menuList.length > 0) ? state.app.menuList : JSON.parse(localStorage.getItem('menuList')),
+  menuList: state => state.app.menuList.length > 0 ? state.app.menuList : JSON.parse(localStorage.getItem('menuList')),
 }
 
 export default getters
