@@ -280,7 +280,6 @@
           ids.push(question.id);
         })
         this.downloadQuestion(ids).then(res => {
-          console.log('qqqqqqqqqqqqqqqqqqqqqqqq',res)
           var blob = res;
           var fileName = '试题' + new Date().getTime();
           if (window.navigator.msSaveOrOpenBlob) {			// IE浏览器下
