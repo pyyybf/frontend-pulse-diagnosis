@@ -3,12 +3,12 @@
     <el-header height="60px">
       <el-row>
         <el-col :span="8" style="text-align: left">
-          <span style="color: white;font-family: 幼圆;font-size: x-large">古代脉诊知识资源数据库</span>
+          <span class="header-title header-text">古代脉诊知识资源数据库</span>
         </el-col>
         <el-col :span="6" :offset="10" style="text-align: right">
-          <span style="color: white">欢迎，{{ roleName }}:</span>
+          <span class="header-text" style="color: white">欢迎，{{ roleName }}:</span>
           <el-dropdown>
-            <span class="el-dropdown-link" style="color: white">
+            <span class="el-dropdown-link header-text" style="color: white">
               {{username}}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
@@ -73,7 +73,6 @@
         editableTabs: [{
           title: '主页',
           name: `/${localStorage.getItem('roleScene')}/home`,
-          // index: `/${localStorage.getItem('roleScene')}/home`
         }],
         editableTabNames: ["主页"],
         menuItemValue: ''
@@ -181,8 +180,22 @@
 </script>
 
 <style scoped>
+  .header-title {
+    color: white;
+    font-family: 幼圆;
+    font-size: x-large;
+  }
+
+  .header-text:hover {
+    cursor: default;
+  }
+
   .sub-container {
     height: calc(100vh - 60px);
+  }
+
+  el-header > span {
+    background-color: red;
   }
 </style>
 
