@@ -6,6 +6,7 @@
     <br><br>
     <el-table
       :data="tableData"
+      v-loading="loading"
       border
       style="width: 100%">
       <el-table-column
@@ -104,6 +105,7 @@
           permission: '',
         },
         ifEdit: false,
+        loading: false,
       }
     },
     created() {
@@ -123,11 +125,13 @@
         this.getRoleList();
       },
       getRoleList() {
+        this.loading = true;
         this.getRoleByPage(this.listQuery).then(res => {
           this.tableData = res.list;
           this.listQuery.pageNum = res.pageNum;
           this.listQuery.pageSize = res.pageSize;
           this.total = res.total;
+          this.loading = false;
         }).catch(err => {
 
         })

@@ -48,6 +48,7 @@
     </el-form>
     <el-table
       :data="tableData"
+      v-loading="loading"
       border
       style="width: 100%">
       <el-table-column
@@ -159,7 +160,8 @@
           phone: '',
           email: '',
           roleId: -1,
-        }
+        },
+        loading: false,
       }
     },
     components: {
@@ -203,6 +205,7 @@
         this.onSearch();
       },
       onSearch() {
+        this.loading = true;
         this.userInfoQuery.startTime = this.timeArr[0] ? parseTime(this.timeArr[0]) : null
         this.userInfoQuery.endTime = this.timeArr[1] ? parseTime(this.timeArr[1]) : null
         this.getAllUserInfo({
@@ -213,6 +216,7 @@
           this.listQuery.pageNum = res.pageNum;
           this.listQuery.pageSize = res.pageSize;
           this.total = res.total;
+          this.loading = false;
         }).catch(err => {
 
         })
