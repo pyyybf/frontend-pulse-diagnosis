@@ -93,12 +93,12 @@
           query: this.$route.query
         });
       },
-      editableTabValue: function (newVal, oldVal) {
-        console.log('editableTabValue change to', newVal)
-      },
-      menuItemValue: function (newVal, oldVal) {
-        console.log('menuItemValue change to', newVal)
-      }
+      // editableTabValue: function (newVal, oldVal) {
+      //   console.log('editableTabValue change to', newVal)
+      // },
+      // menuItemValue: function (newVal, oldVal) {
+      //   console.log('menuItemValue change to', newVal)
+      // }
     },
     methods: {
       ...mapActions([
