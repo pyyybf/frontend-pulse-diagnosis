@@ -3,6 +3,15 @@ import {
   getAllDiagramAPI,
   getDiagramByClassificationIdAPI,
   getDiagramByIdAPI,
+  delClassificationByIdAPI,
+  delDiagramByIdIdAPI,
+  getAllClassificationAPI,
+  createClassificationAPI,
+  addDiagramAPI,
+  updateDiagramByIdAPI,
+  uploadDiagramImgAPI,
+  updateClassificationNameByIdAPI,
+  updateDiagramNameByIdAPI
 } from "@/api/diagram";
 import {Message} from 'element-ui';
 
@@ -65,6 +74,136 @@ const diagram = {
           reject(error)
         })
       });
+    },
+    delClassificationById({}, data) {
+      return new Promise((resolve, reject) => {
+        delClassificationByIdAPI({id: data}).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    delDiagramById({}, data) {
+      return new Promise((resolve, reject) => {
+        delDiagramByIdIdAPI({id: data}).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    getAllClassification({}) {
+      return new Promise((resolve, reject) => {
+        getAllClassificationAPI().then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    createClassification({}, data) {
+      return new Promise((resolve, reject) => {
+        createClassificationAPI({name: data}).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    addDiagram({}, data) {
+      return new Promise((resolve, reject) => {
+        addDiagramAPI(data).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    editDiagram({}, data) {
+      return new Promise((resolve, reject) => {
+        updateDiagramByIdAPI(data.id, data.diagramForm).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    uploadDiagramImg({}, data) {
+      return new Promise((resolve, reject) => {
+        uploadDiagramImgAPI(data)
+          .then(response => {
+            if (response.data.success) {
+              resolve(response.data.content)
+            } else {
+              reject()
+            }
+          })
+          .catch(error => {
+            Message.error("上传失败")
+            reject()
+          })
+      })
+    },
+    updateClassificationNameById({}, data) {
+      return new Promise((resolve, reject) => {
+        updateClassificationNameByIdAPI(data)
+          .then(response => {
+            if (response.data.success) {
+              resolve(response.data.content)
+            } else {
+              reject()
+            }
+          })
+          .catch(error => {
+            reject()
+          })
+      })
+    },
+    updateDiagramNameById({}, data) {
+      return new Promise((resolve, reject) => {
+        updateDiagramNameByIdAPI(data)
+          .then(response => {
+            if (response.data.success) {
+              resolve(response.data.content)
+            } else {
+              reject()
+            }
+          })
+          .catch(error => {
+            reject()
+          })
+      })
     },
   }
 };

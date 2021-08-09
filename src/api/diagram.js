@@ -33,10 +33,79 @@ export const getDiagramByClassificationIdAPI = (data) => {
 
 export const getDiagramByIdAPI = (data) => {
   return HttpRequest.request({
-    url: `${api.diagramPre}/getDiagramById`,
+    url: `${api.diagramPre}/getDiagramById/${data.id}`,
     method: 'GET',
+  })
+}
+
+export const delClassificationByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/delClassificationById/${data.id}`,
+    method: 'DELETE',
+  })
+}
+
+export const delDiagramByIdIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/delDiagramById/${data.id}`,
+    method: 'DELETE',
+  })
+}
+
+export const getAllClassificationAPI = () => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/getAllClassification`,
+    method: 'GET',
+  })
+}
+
+export const createClassificationAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/createClassification`,
+    method: 'POST',
     params: {
       ...data
     }
+  })
+}
+
+export const addDiagramAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/addDiagram`,
+    method: 'POST',
+    data
+  })
+}
+
+export const updateDiagramByIdAPI = (id, data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/updateDiagramById/${id}`,
+    method: 'PUT',
+    data
+  })
+}
+
+export const uploadDiagramImgAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/uploadDiagramImg`,
+    method: 'POST',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}
+
+export const updateClassificationNameByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/updateClassificationNameById`,
+    method: 'PUT',
+    params: {...data}
+  })
+}
+
+export const updateDiagramNameByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/updateDiagramNameById`,
+    method: 'PUT',
+    params: {...data}
   })
 }

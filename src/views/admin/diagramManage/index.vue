@@ -27,13 +27,13 @@
                 type="text"
                 size="mini"
                 icon="el-icon-edit"
-                @click="() => append(data)">
+                @click="() => editTree(node,data)">
               </el-button>
               <el-button
                 type="text"
                 size="mini"
                 icon="el-icon-delete"
-                @click="() => remove(node, data)">
+                @click="() => delClassification(node, data)">
               </el-button>
             </span>
           </span>
@@ -53,7 +53,7 @@
       </el-form>
       <el-row>
         <el-button class="diagram-manage-btn" type="primary" plain size="medium" icon="el-icon-plus"
-                   @click="showEditTermDialog(undefined,false)">新建脉图
+                   @click="showEditDiagramDialog(undefined,false)">新建脉图
         </el-button>
         <el-upload
           class="term-upload diagram-manage-btn"
@@ -90,8 +90,10 @@
                 <el-form-item label="关键词" class="item">{{diagram.keyword}}</el-form-item>
               </el-form>
               <div class="btn-group">
-                <el-button icon="el-icon-edit" type="text">编辑</el-button>
-                <el-button icon="el-icon-delete" type="text" style="color: #F56C6C">删除</el-button>
+                <el-button icon="el-icon-edit" type="text" @click="showEditDiagramDialog(diagram,true)">编辑</el-button>
+                <el-button icon="el-icon-delete" type="text" @click="delDiagram(diagram.id)"
+                           style="color: #F56C6C">删除
+                </el-button>
               </div>
             </el-col>
           </el-row>
@@ -109,11 +111,15 @@
         style="text-align: right">
       </el-pagination>
     </el-col>
+    <EditDiagramDialog :edit="ifEdit" :diagram-info="editDiagramInfo"
+                       :edit-diagram-dialog-visible="editDiagramDialogVisible"
+                       :close-edit-diagram-dialog="closeEditDiagramDialog"/>
   </el-row>
 </template>
 
 <script>
   import {mapActions} from 'vuex';
+  import EditDiagramDialog from './components/EditDiagramDialog';
 
   export default {
     name: "DiagramManage",
@@ -132,23 +138,24 @@
         diagramList: [],
         total: 0,
         diagramForm: {},
-        classificationList: [
-          {
-            value: 1,
-            label: '脉理',
-          },
-          {
-            value: 2,
-            label: '脉象',
-          },
-          {
-            value: 3,
-            label: '脉法',
-          },
-        ],
+        classificationList: [],
         loading: false,
-        key: '',
+        treeEdit: false,
+        editDiagramDialogVisible: false,
+        ifEdit: false,
+        editDiagramInfo: {
+          id: -1,
+          name: '',
+          classificationId: null,
+          classificationName: '',
+          provenance: '',
+          keyword: '',
+          content: '',
+        },
       }
+    },
+    components: {
+      EditDiagramDialog,
     },
     created() {
       this.getClassificationTree().then(res => {
@@ -156,30 +163,80 @@
       })
       this.onSearch();
     },
-    watch: {
-      key: function (newVal, oldVal) {
-        console.log(newVal)
-      },
-    },
     methods: {
       ...mapActions([
         'getClassificationTree',
         'getAllDiagram',
         'getDiagramByClassificationId',
         'getDiagramById',
+        'delClassificationById',
+        'delDiagramById',
+        'updateDiagramNameById',
+        'updateClassificationNameById',
       ]),
-      append(data) {
-        // const newChild = {id: id++, label: 'testtest', children: []};
-        // if (!data.children) {
-        //   this.$set(data, 'children', []);
-        // }
-        // data.children.push(newChild);
+      editTree(node, data) {
+        // console.log('editTree', node, data)
+        this.treeEdit = true;
+        this.$prompt(`请输入新的${data.id.startsWith('classification') ? '分类名称' : '图片名称'}`, '修改', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPlaceholder: data.label,
+        }).then(({value}) => {
+          if (!value) {
+            this.$message.error('修改失败，新名称不能为空')
+            return
+          }
+          if (data.id.startsWith('classification')) {
+            this.updateClassificationNameById({
+              id: data.sqlId,
+              name: value
+            }).then(res => {
+              this.$message.success('修改成功');
+              this.getClassificationTree().then(res => {
+                this.classificationTreeData = res;
+              })
+              this.onSearch();
+            }).catch(err => {
+
+            })
+          } else {
+            this.updateDiagramNameById({
+              id: data.sqlId,
+              name: value
+            }).then(res => {
+              this.$message.success('修改成功');
+              this.getClassificationTree().then(res => {
+                this.classificationTreeData = res;
+              })
+              this.onSearch();
+            }).catch(err => {
+
+            })
+          }
+        }).catch(() => {
+          // this.$message.info('未做修改');
+        });
       },
-      remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-        children.splice(index, 1);
+      delClassification(node, data) {
+        // console.log(node, data)
+        if (data.children && data.children.length > 0) {
+          this.$message.error('当前分类不为空，无法删除');
+          return;
+        }
+        if (data.id.startsWith('classification')) {
+          this.delClassificationById(data.sqlId).then(res => {
+            this.getClassificationTree().then(resTree => {
+              this.classificationTreeData = resTree;
+            });
+          });
+        } else {
+          this.delDiagramById(data.sqlId).then(res => {
+            this.getClassificationTree().then(resTree => {
+              this.classificationTreeData = resTree;
+              this.onSearch();
+            });
+          });
+        }
       },
       handleSizeChange(val) {
         this.listQuery.pageNum = 1;
@@ -191,29 +248,41 @@
         this.onSearch();
       },
       nodeClick(data) {
-        // console.log(data)
-        this.loading = true;
         if (data.id.startsWith('diagram')) {
-          var id = Number(data.id.substring(7));
-          this.getDiagramById({id: id}).then(res => {
-            this.diagramList = [res];
-            this.listQuery.pageNum = 1;
-            this.listQuery.pageSize = 10;
-            this.total = 1;
-            this.loading = false;
-          })
+          if (!this.treeEdit) {
+            this.loading = true;
+            var id = Number(data.id.substring(7));
+            this.getDiagramById({id: id}).then(res => {
+              if (res != null) {
+                this.diagramList = [res];
+                this.listQuery.pageNum = 1;
+                this.listQuery.pageSize = 10;
+                this.total = 1;
+              }
+              this.loading = false;
+            })
+          }
+          this.treeEdit = false;
         } else {
-          var classificationId = Number(data.id.substring(14));
-          this.getDiagramByClassificationId({
-            ...this.listQuery,
-            classificationId: classificationId,
-          }).then(res => {
-            this.diagramList = res.list;
-            this.listQuery.pageNum = res.pageNum;
-            this.listQuery.pageSize = res.pageSize;
-            this.total = res.total;
-            this.loading = false;
-          })
+          if (!this.treeEdit) {
+            this.loading = true;
+            var classificationId = Number(data.id.substring(14));
+            this.getDiagramByClassificationId({
+              ...this.listQuery,
+              classificationId: classificationId,
+            }).then(res => {
+              if (res !== null) {
+                this.diagramList = res.list;
+                this.listQuery.pageNum = res.pageNum;
+                this.listQuery.pageSize = res.pageSize;
+                this.total = res.total;
+              } else {
+                this.onSearch();
+              }
+              this.loading = false;
+            })
+          }
+          this.treeEdit = false;
         }
       },
       onSearch() {
@@ -236,6 +305,54 @@
       },
       handleDownload() {
 
+      },
+      delDiagram(id) {
+        this.delDiagramById(id).then(res => {
+          this.getClassificationTree().then(resTree => {
+            this.classificationTreeData = resTree;
+            this.onSearch();
+          });
+        });
+      },
+      showEditDiagramDialog(info, ifEdit) {
+        this.ifEdit = ifEdit;
+        if (info !== undefined) {
+          this.editDiagramInfo = {
+            id: info.id,
+            name: info.name,
+            classificationId: info.classificationId,
+            provenance: info.provenance,
+            keyword: info.keyword,
+            content: info.content,
+          };
+        } else {
+          this.editDiagramInfo = {
+            id: -1,
+            name: '',
+            classificationId: null,
+            provenance: '',
+            keyword: '',
+            content: '',
+          };
+        }
+        this.editDiagramDialogVisible = true;
+      },
+      closeEditDiagramDialog(ifSubmit) {
+        this.editDiagramDialogVisible = false;
+        this.editDiagramInfo = {
+          id: -1,
+          name: '',
+          classificationId: null,
+          provenance: '',
+          keyword: '',
+          content: '',
+        };
+        if (ifSubmit) {
+          this.getClassificationTree().then(res => {
+            this.classificationTreeData = res;
+          })
+          this.onSearch();
+        }
       },
     },
   }

@@ -123,14 +123,12 @@
             type: 'warning'
           }
         ).then(() => {
-          console.log(practiceForm)
-          // TODO: 提交练习
           this.addPractice(practiceForm).then(res => {
             this.$router.push({
               path: '/user/question/practiceList',
             });
           }).catch(err => {
-            this.$message.error('11111');
+            this.$message.error('提交失败');
           });
         }).catch(() => {
 
