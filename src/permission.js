@@ -84,5 +84,4 @@ router.beforeEach(async (to, from, next) => {
 router.afterEach(() => {
   // finish progress bar
   // NProgress.done()
-  // TODO: 更新store当前每个tag位置？
 })
