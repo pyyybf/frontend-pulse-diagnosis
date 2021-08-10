@@ -121,40 +121,34 @@
       },
       nodeClick(data) {
         if (data.id.startsWith('diagram')) {
-          if (!this.treeEdit) {
-            this.loading = true;
-            var id = Number(data.id.substring(7));
-            this.getDiagramById({id: id}).then(res => {
-              if (res != null) {
-                this.diagramList = [res];
-                this.listQuery.pageNum = 1;
-                this.listQuery.pageSize = 10;
-                this.total = 1;
-              }
-              this.loading = false;
-            })
-          }
-          this.treeEdit = false;
+          this.loading = true;
+          var id = data.sqlId;
+          this.getDiagramById({id: id}).then(res => {
+            if (res != null) {
+              this.diagramList = [res];
+              this.listQuery.pageNum = 1;
+              this.listQuery.pageSize = 10;
+              this.total = 1;
+            }
+            this.loading = false;
+          })
         } else {
-          if (!this.treeEdit) {
-            this.loading = true;
-            var classificationId = Number(data.id.substring(14));
-            this.getDiagramByClassificationId({
-              ...this.listQuery,
-              classificationId: classificationId,
-            }).then(res => {
-              if (res !== null) {
-                this.diagramList = res.list;
-                this.listQuery.pageNum = res.pageNum;
-                this.listQuery.pageSize = res.pageSize;
-                this.total = res.total;
-              } else {
-                this.onSearch();
-              }
-              this.loading = false;
-            })
-          }
-          this.treeEdit = false;
+          this.loading = true;
+          var classificationId = data.sqlId;
+          this.getDiagramByClassificationId({
+            ...this.listQuery,
+            classificationId: classificationId,
+          }).then(res => {
+            if (res !== null) {
+              this.diagramList = res.list;
+              this.listQuery.pageNum = res.pageNum;
+              this.listQuery.pageSize = res.pageSize;
+              this.total = res.total;
+            } else {
+              this.onSearch();
+            }
+            this.loading = false;
+          })
         }
       },
       onSearch() {

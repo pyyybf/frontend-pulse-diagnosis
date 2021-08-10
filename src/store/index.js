@@ -7,6 +7,7 @@ import admin from './modules/admin';
 import question from './modules/question';
 import term from './modules/term';
 import diagram from "./modules/diagram";
+import modern from "./modules/modern";
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     question,
     term,
     diagram,
+    modern,
   },
   state: {},
   mutations: {},

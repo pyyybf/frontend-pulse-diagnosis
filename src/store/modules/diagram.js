@@ -10,7 +10,7 @@ import {
   addDiagramAPI,
   updateDiagramByIdAPI,
   uploadDiagramImgAPI,
-  updateClassificationNameByIdAPI,
+  updateDiagramClassificationNameByIdAPI,
   updateDiagramNameByIdAPI,
   downloadDiagramAPI,
   uploadDiagramAPI,
