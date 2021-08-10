@@ -10,7 +10,7 @@ import {
   addDiagramAPI,
   updateDiagramByIdAPI,
   uploadDiagramImgAPI,
-  updateDiagramClassificationNameByIdAPI,
+  updateClassificationNameByIdAPI,
   updateDiagramNameByIdAPI,
   downloadDiagramAPI,
   uploadDiagramAPI,
@@ -179,7 +179,7 @@ const diagram = {
     },
     updateDiagramClassificationNameById({}, data) {
       return new Promise((resolve, reject) => {
-        updateDiagramClassificationNameByIdAPI(data)
+        updateClassificationNameByIdAPI(data)
           .then(response => {
             if (response.data.success) {
               resolve(response.data.content)
