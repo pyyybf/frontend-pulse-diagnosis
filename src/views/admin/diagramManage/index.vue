@@ -62,7 +62,6 @@
           action="#"
           :http-request="handleUpload"
           :multiple="false"
-          :limit="1"
           :show-file-list="false">
           <el-button type="primary" plain size="medium" icon="el-icon-upload" :loading="importLoading">批量导入</el-button>
         </el-upload>
