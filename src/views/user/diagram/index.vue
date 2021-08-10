@@ -171,7 +171,10 @@
 </script>
 
 <style scoped>
-
+  .box-card {
+    width: 100%;
+    margin-bottom: 10px;
+  }
 </style>
 
 <style>
@@ -204,10 +207,5 @@
 
   .item .el-form-item__label {
     font-weight: bold;
-  }
-
-  .box-card {
-    width: 100%;
-    margin-bottom: 10px;
   }
 </style>
