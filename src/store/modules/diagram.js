@@ -21,7 +21,7 @@ const diagram = {
   state: {},
   mutations: {},
   actions: {
-    getClassificationTree({}, data) {
+    getDiagramClassificationTree({}, data) {
       return new Promise((resolve, reject) => {
         getClassificationTreeAPI(data).then(response => {
           if (response.data.success) {
@@ -77,7 +77,7 @@ const diagram = {
         })
       });
     },
-    delClassificationById({}, data) {
+    delDiagramClassificationById({}, data) {
       return new Promise((resolve, reject) => {
         delClassificationByIdAPI({id: data}).then(response => {
           if (response.data.success) {
@@ -105,7 +105,7 @@ const diagram = {
         })
       });
     },
-    getAllClassification({}) {
+    getAllDiagramClassification({}) {
       return new Promise((resolve, reject) => {
         getAllClassificationAPI().then(response => {
           if (response.data.success) {
@@ -119,7 +119,7 @@ const diagram = {
         })
       });
     },
-    createClassification({}, data) {
+    createDiagramClassification({}, data) {
       return new Promise((resolve, reject) => {
         createClassificationAPI({name: data}).then(response => {
           if (response.data.success) {
@@ -177,9 +177,9 @@ const diagram = {
           })
       })
     },
-    updateClassificationNameById({}, data) {
+    updateDiagramClassificationNameById({}, data) {
       return new Promise((resolve, reject) => {
-        updateClassificationNameByIdAPI(data)
+        updateDiagramClassificationNameByIdAPI(data)
           .then(response => {
             if (response.data.success) {
               resolve(response.data.content)

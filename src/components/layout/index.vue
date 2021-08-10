@@ -44,18 +44,19 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main>
-        <el-tabs v-model="editableTabValue" type="card" closable @tab-remove="removeTab" @tab-click="changeTab">
+      <el-main class="main-body">
+        <el-tabs v-model="editableTabValue" type="card" closable @tab-remove="removeTab"
+                 @tab-click="changeTab">
           <el-tab-pane
             v-for="item in editableTabs"
             :key="item.name"
             :label="item.title"
             :name="item.name"
           ></el-tab-pane>
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
         </el-tabs>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </el-main>
     </el-container>
   </el-container>
@@ -196,6 +197,10 @@
 
   el-header > span {
     background-color: red;
+  }
+
+  .main-body {
+    overflow-y: scroll;
   }
 </style>
 

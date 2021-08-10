@@ -85,14 +85,14 @@
       },
     },
     mounted() {
-      this.getAllClassification().then(res => {
+      this.getAllDiagramClassification().then(res => {
         this.classificationList = res;
       })
     },
     methods: {
       ...mapActions([
-        'getAllClassification',
-        'createClassification',
+        'getAllDiagramClassification',
+        'createDiagramClassification',
         'addDiagram',
         'editDiagram',
         'uploadDiagramImg',
@@ -147,7 +147,7 @@
       checkClassification() {
         return new Promise((resolve, reject) => {
           if (typeof this.diagramInfo.classificationId === "string") {  //是新输入的分类
-            this.createClassification(this.diagramInfo.classificationId).then(res => {
+            this.createDiagramClassification(this.diagramInfo.classificationId).then(res => {
               this.diagramInfo.classificationId = res;
               resolve()
             }).catch(err => {

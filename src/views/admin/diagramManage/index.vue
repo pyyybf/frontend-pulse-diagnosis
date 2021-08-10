@@ -158,21 +158,21 @@
       EditDiagramDialog,
     },
     created() {
-      this.getClassificationTree().then(res => {
+      this.getDiagramClassificationTree().then(res => {
         this.classificationTreeData = res;
       })
       this.onSearch();
     },
     methods: {
       ...mapActions([
-        'getClassificationTree',
+        'getDiagramClassificationTree',
         'getAllDiagram',
         'getDiagramByClassificationId',
         'getDiagramById',
-        'delClassificationById',
+        'delDiagramClassificationById',
         'delDiagramById',
         'updateDiagramNameById',
-        'updateClassificationNameById',
+        'updateDiagramClassificationNameById',
         'downloadDiagram',
         'uploadDiagram',
       ]),
@@ -189,12 +189,12 @@
             return
           }
           if (data.id.startsWith('classification')) {
-            this.updateClassificationNameById({
+            this.updateDiagramClassificationNameById({
               id: data.sqlId,
               name: value
             }).then(res => {
               this.$message.success('修改成功');
-              this.getClassificationTree().then(res => {
+              this.getDiagramClassificationTree().then(res => {
                 this.classificationTreeData = res;
               })
               this.onSearch();
@@ -207,7 +207,7 @@
               name: value
             }).then(res => {
               this.$message.success('修改成功');
-              this.getClassificationTree().then(res => {
+              this.getDiagramClassificationTree().then(res => {
                 this.classificationTreeData = res;
               })
               this.onSearch();
@@ -226,14 +226,14 @@
           return;
         }
         if (data.id.startsWith('classification')) {
-          this.delClassificationById(data.sqlId).then(res => {
-            this.getClassificationTree().then(resTree => {
+          this.delDiagramClassificationById(data.sqlId).then(res => {
+            this.getDiagramClassificationTree().then(resTree => {
               this.classificationTreeData = resTree;
             });
           });
         } else {
           this.delDiagramById(data.sqlId).then(res => {
-            this.getClassificationTree().then(resTree => {
+            this.getDiagramClassificationTree().then(resTree => {
               this.classificationTreeData = resTree;
               this.onSearch();
             });
@@ -315,7 +315,7 @@
         this.uploadDiagram(formData).then(res => {
           this.importLoading = false;
           this.$message.success('上传成功')
-          this.getClassificationTree().then(res => {
+          this.getDiagramClassificationTree().then(res => {
             this.classificationTreeData = res;
           })
           this.onSearch();
@@ -349,7 +349,7 @@
       delDiagram(id) {
         this.delDiagramById(id).then(res => {
           this.$message.success('删除成功')
-          this.getClassificationTree().then(resTree => {
+          this.getDiagramClassificationTree().then(resTree => {
             this.classificationTreeData = resTree;
             this.onSearch();
           });
@@ -389,7 +389,7 @@
           content: '',
         };
         if (ifSubmit) {
-          this.getClassificationTree().then(res => {
+          this.getDiagramClassificationTree().then(res => {
             this.classificationTreeData = res;
           })
           this.onSearch();
