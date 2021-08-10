@@ -1,10 +1,10 @@
 <template>
-  <h1>AncientBookManage</h1>
+  <h1>AncientTextManage</h1>
 </template>
 
 <script>
     export default {
-        name: "AncientBookManage",
+        name: "AncientTextManage",
     }
 </script>
 

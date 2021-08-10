@@ -12,7 +12,7 @@ const app = {
             children: [
               {
                 title: '古籍管理',
-                index: '/admin/ancientBookManage',
+                index: '/admin/ancientTextManage',
                 position: '',
                 query: {},
               },
@@ -71,7 +71,7 @@ const app = {
             children: [
               {
                 title: '古籍阅读',
-                index: '/user/ancientBook',
+                index: '/user/ancientText',
                 position: '',
                 query: {},
               },

@@ -65,8 +65,8 @@ export default new Router({
           meta: {title: '题库管理', noCache: true},
         },
         {
-          path: 'ancientBookManage',
-          component: () => import('@/views/admin/ancientBookManage/index'),
+          path: 'ancientTextManage',
+          component: () => import('@/views/admin/ancientTextManage/index'),
           name: '古籍管理',
           meta: {title: '古籍管理', noCache: true},
         },
@@ -96,8 +96,8 @@ export default new Router({
           meta: {title: '用户主页', noCache: true},
         },
         {
-          path: 'ancientBook',
-          component: () => import('@/views/user/ancientBook/index'),
+          path: 'ancientText',
+          component: () => import('@/views/user/ancientText/index'),
           name: '古籍阅读',
           meta: {title: '古籍阅读', noCache: true},
         },
