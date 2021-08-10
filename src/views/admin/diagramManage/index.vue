@@ -173,6 +173,8 @@
         'delDiagramById',
         'updateDiagramNameById',
         'updateClassificationNameById',
+        'downloadDiagram',
+        'uploadDiagram',
       ]),
       editTree(node, data) {
         // console.log('editTree', node, data)
@@ -300,14 +302,53 @@
 
         })
       },
-      handleUpload() {
+      handleUpload(params) {
+        this.importLoading = true;
+        const _file = params.file;
 
+        // 通过 FormData 对象上传文件
+        var formData = new FormData();
+        formData.append("zipFile", _file);
+        // console.log('formData', formData)
+
+        // 发起请求
+        this.uploadDiagram(formData).then(res => {
+          this.importLoading = false;
+          this.$message.success('上传成功')
+          this.getClassificationTree().then(res => {
+            this.classificationTreeData = res;
+          })
+          this.onSearch();
+        }).catch(err => {
+          this.importLoading = false;
+        })
       },
       handleDownload() {
-
+        this.exportLoading = true;
+        var ids = [];
+        for (var diagram of this.diagramList) {
+          ids.push(diagram.id);
+        }
+        this.downloadDiagram(ids).then(res => {
+          var blob = res;
+          var fileName = '脉图' + new Date().getTime();
+          if (window.navigator.msSaveOrOpenBlob) {			// IE浏览器下
+            navigator.msSaveBlob(blob, fileName);
+          } else {
+            var link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+          this.exportLoading = false;
+        }).catch(err => {
+          this.exportLoading = false;
+        })
       },
       delDiagram(id) {
         this.delDiagramById(id).then(res => {
+          this.$message.success('删除成功')
           this.getClassificationTree().then(resTree => {
             this.classificationTreeData = resTree;
             this.onSearch();

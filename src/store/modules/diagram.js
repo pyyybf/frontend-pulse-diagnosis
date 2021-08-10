@@ -11,7 +11,9 @@ import {
   updateDiagramByIdAPI,
   uploadDiagramImgAPI,
   updateClassificationNameByIdAPI,
-  updateDiagramNameByIdAPI
+  updateDiagramNameByIdAPI,
+  downloadDiagramAPI,
+  uploadDiagramAPI,
 } from "@/api/diagram";
 import {Message} from 'element-ui';
 
@@ -201,6 +203,36 @@ const diagram = {
             }
           })
           .catch(error => {
+            reject()
+          })
+      })
+    },
+    downloadDiagram({}, data) {
+      return new Promise((resolve, reject) => {
+        downloadDiagramAPI(data).then(response => {
+          if (response.status === 200) {
+            resolve(response.data)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    uploadDiagram({}, data) {
+      return new Promise((resolve, reject) => {
+        uploadDiagramAPI(data)
+          .then(response => {
+            if (response.data.success) {
+              resolve(response.data.content)
+            } else {
+              reject()
+            }
+          })
+          .catch(error => {
+            Message.error("上传失败")
             reject()
           })
       })

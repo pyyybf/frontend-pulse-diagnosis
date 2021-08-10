@@ -109,3 +109,23 @@ export const updateDiagramNameByIdAPI = (data) => {
     params: {...data}
   })
 }
+
+export const downloadDiagramAPI = (data) => {
+  let params = new URLSearchParams();
+  params.append("ids", data);
+  return HttpRequest.request({
+    url: `${api.diagramPre}/downloadDiagram`,
+    method: 'POST',
+    data: params,
+    responseType: 'blob',
+  })
+}
+
+export const uploadDiagramAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.diagramPre}/uploadDiagram`,
+    method: 'POST',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}
