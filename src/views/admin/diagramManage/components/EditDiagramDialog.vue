@@ -77,12 +77,12 @@
       }
     },
     watch: {
-      'diagramInfo.classificationId': function (newVal, oldVal) {
-        console.log(typeof newVal)
-      },
-      'fileList': function (newVal, oldVal) {
-        console.log(newVal)
-      },
+      // 'diagramInfo.classificationId': function (newVal, oldVal) {
+      //   console.log(typeof newVal)
+      // },
+      // 'fileList': function (newVal, oldVal) {
+      //   console.log(newVal)
+      // },
     },
     mounted() {
       this.getAllDiagramClassification().then(res => {
