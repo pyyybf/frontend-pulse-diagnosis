@@ -14,12 +14,14 @@
           default-expand-all
           @node-click="nodeClick">
           <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span v-if="node.label.length<17">
-              <i v-if="!data.children" class="el-icon-document"></i>{{ node.label }}
+            <span v-if="node.label.length<17" style="text-overflow:ellipsis; overflow:hidden;white-space: nowrap;">
+              <i :class="data.children?'el-icon-folder':'el-icon-document'"></i>
+              {{ node.label }}
             </span>
-            <el-tooltip v-else class="item" effect="dark" :content="node.label" placement="top">
+            <el-tooltip v-else effect="dark" :content="node.label" placement="top">
               <span>
-                <i v-if="!data.children" class="el-icon-document"></i>{{ node.label.substring(0,16)+'...' }}
+                <i :class="data.children?'el-icon-folder':'el-icon-document'"></i>
+                {{ node.label.substring(0,16)+'...' }}
               </span>
             </el-tooltip>
           </span>
