@@ -77,8 +77,6 @@
           class="modern-manage-btn"
           action="#"
           :http-request="handleUpload"
-          :on-success="handleSuccess"
-          :on-change="handleChange"
           :multiple="false"
           :show-file-list="false">
           <el-button type="primary" plain size="medium" icon="el-icon-upload" :loading="importLoading">批量导入</el-button>
@@ -393,13 +391,6 @@
           this.onSearch();
         }
       },
-      handleSuccess(response, file, fileList) {
-        console.log('111111111111111')
-        console.log(response, file, fileList)
-      },
-      handleChange(file, fileList) {
-        console.log(file, fileList)
-      },
       handleUpload(params) {
         this.importLoading = true;
         const _file = params.file;
@@ -413,8 +404,6 @@
         this.uploadModern(formData).then(res => {
           this.importLoading = false;
           this.$message.success('上传成功')
-          this.file = null;
-          this.fileList = [];
           this.getModernClassificationTree().then(res => {
             this.classificationTreeData = res;
           })

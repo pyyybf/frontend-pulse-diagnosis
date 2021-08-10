@@ -6,7 +6,7 @@
              width="50%">
     <el-form class="edit-modern" :model="modernInfo" label-position="right" label-width="100px">
       <el-form-item label="文献名称">
-        <el-input v-model="modernInfo.name" autocomplete="off" placeholder="请输入图片名称"></el-input>
+        <el-input v-model="modernInfo.name" autocomplete="off" placeholder="请输入文献名称"></el-input>
       </el-form-item>
       <el-form-item label="分类">
         <el-select

@@ -225,7 +225,7 @@ const modern = {
       return new Promise((resolve, reject) => {
         uploadModernAPI(data)
           .then(response => {
-            // console.log(response)
+            console.log(response)
             if (response.data.success) {
               resolve(response.data.content)
             } else {
