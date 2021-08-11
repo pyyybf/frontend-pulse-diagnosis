@@ -69,6 +69,21 @@ export default new Router({
           component: () => import('@/views/admin/ancientTextManage/index'),
           name: '古籍管理',
           meta: {title: '古籍管理', noCache: true},
+          redirect: '/admin/ancientTextManage/ancientTextList',
+          children: [
+            {
+              path: 'ancientTextList',
+              component: () => import('@/views/admin/ancientTextManage/ancientTextList'),
+              name: '古籍列表',
+              meta: {title: '古籍列表', noCache: true},
+            },
+            {
+              path: 'ancientTextDetail',
+              component: () => import('@/views/admin/ancientTextManage/ancientTextDetail'),
+              name: '古籍阅读',
+              meta: {title: '古籍阅读', noCache: true},
+            },
+          ]
         },
         {
           path: 'modernTextManage',

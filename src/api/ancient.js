@@ -44,3 +44,46 @@ export const getAncientDetailByIdAPI = (data) => {
     method: 'GET',
   })
 }
+
+export const updateClassificationNameByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/updateClassificationNameById`,
+    method: 'PUT',
+    params: {...data}
+  })
+}
+
+export const updateAncientNameByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/updateAncientNameById`,
+    method: 'PUT',
+    params: {
+      ...data
+    }
+  })
+}
+
+export const delClassificationByIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/delClassificationById/${data.id}`,
+    method: 'DELETE',
+  })
+}
+
+export const delAncientByIdIdAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/delAncientById/${data.id}`,
+    method: 'DELETE',
+  })
+}
+
+export const downloadAncientAPI = (data) => {
+  let params = new URLSearchParams();
+  params.append("ids", data);
+  return HttpRequest.request({
+    url: `${api.ancientPre}/downloadAncient`,
+    method: 'POST',
+    data: params,
+    responseType: 'blob',
+  })
+}
