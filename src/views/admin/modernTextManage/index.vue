@@ -181,7 +181,6 @@
           id: -1,
           name: '',
           classificationId: null,
-          classificationName: '',
           author: '',
           publisher: '',
           content: '',
