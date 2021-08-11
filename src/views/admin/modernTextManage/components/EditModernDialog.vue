@@ -113,38 +113,13 @@
       },
       submit() {
         this.checkClassification().then(() => {
-          this.handleUploadPdf(this.file).then(res => {
-            if (this.edit) {
-              this.editModern({
-                id: this.modernInfo.id,
-                modernForm: {
-                  name: this.modernInfo.name,
-                  classificationId: this.modernInfo.classificationId,
-                  author: this.modernInfo.author,
-                  publisher: this.modernInfo.publisher,
-                  content: res.content,
-                  cover: res.cover,
-                },
-              }).then(res => {
-                this.close(true);
-              }).catch(err => {
-
-              })
-            } else {
-              this.addModern({
-                name: this.modernInfo.name,
-                classificationId: this.modernInfo.classificationId,
-                author: this.modernInfo.author,
-                publisher: this.modernInfo.publisher,
-                content: res.content,
-                cover: res.cover,
-              }).then(res => {
-                this.close(true);
-              }).catch(err => {
-
-              })
-            }
-          })
+          if (this.file) {
+            this.handleUploadPdf(this.file).then(res => {
+              this.handleUpdateOrAdd(res)
+            })
+          } else {
+            this.handleUpdateOrAdd(null)
+          }
         })
       },
       checkClassification() {
@@ -188,6 +163,38 @@
             resolve(this.modernInfo.content)
           }
         })
+      },
+      handleUpdateOrAdd(pdfInfo) {
+        if (this.edit) {
+          this.editModern({
+            id: this.modernInfo.id,
+            modernForm: {
+              name: this.modernInfo.name,
+              classificationId: this.modernInfo.classificationId,
+              author: this.modernInfo.author,
+              publisher: this.modernInfo.publisher,
+              content: pdfInfo ? pdfInfo.content : null,
+              cover: pdfInfo ? pdfInfo.cover : null,
+            },
+          }).then(res => {
+            this.close(true);
+          }).catch(err => {
+
+          })
+        } else {
+          this.addModern({
+            name: this.modernInfo.name,
+            classificationId: this.modernInfo.classificationId,
+            author: this.modernInfo.author,
+            publisher: this.modernInfo.publisher,
+            content: pdfInfo.content,
+            cover: pdfInfo.cover,
+          }).then(res => {
+            this.close(true);
+          }).catch(err => {
+
+          })
+        }
       },
     }
   }
