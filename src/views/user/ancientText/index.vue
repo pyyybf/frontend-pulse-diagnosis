@@ -1,13 +1,12 @@
 <template>
-  <h1>AncientText</h1>
+  <router-view></router-view>
 </template>
 
 <script>
   export default {
-    name: "AncientText",
+    name: "AncientText"
   }
 </script>
 
 <style scoped>
-
 </style>

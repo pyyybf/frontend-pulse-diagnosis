@@ -100,6 +100,21 @@ export default new Router({
           component: () => import('@/views/user/ancientText/index'),
           name: '古籍阅读',
           meta: {title: '古籍阅读', noCache: true},
+          redirect: '/user/ancientText/ancientTextList',
+          children: [
+            {
+              path: 'ancientTextList',
+              component: () => import('@/views/user/ancientText/ancientTextList'),
+              name: '古籍列表',
+              meta: {title: '古籍列表', noCache: true},
+            },
+            {
+              path: 'ancientTextDetail',
+              component: () => import('@/views/user/ancientText/ancientTextDetail'),
+              name: '古籍阅读',
+              meta: {title: '古籍阅读', noCache: true},
+            },
+          ]
         },
         {
           path: 'modernText',
@@ -130,7 +145,7 @@ export default new Router({
           component: () => import('@/views/user/question/index'),
           name: '在线练习',
           meta: {title: '在线练习', noCache: true},
-          redirect:'/user/question/practiceList',
+          redirect: '/user/question/practiceList',
           children: [
             {
               path: 'practiceList',

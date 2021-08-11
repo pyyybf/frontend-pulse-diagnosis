@@ -8,6 +8,7 @@ import question from './modules/question';
 import term from './modules/term';
 import diagram from "./modules/diagram";
 import modern from "./modules/modern";
+import ancient from "./modules/ancient";
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     term,
     diagram,
     modern,
+    ancient,
   },
   state: {},
   mutations: {},
