@@ -149,41 +149,34 @@
         this.onSearch();
       },
       nodeClick(data) {
+        this.loading = true;
         if (data.id.startsWith('modern')) {
-          if (!this.treeEdit) {
-            this.loading = true;
-            var id = data.sqlId;
-            this.getModernById({id: id}).then(res => {
-              if (res != null) {
-                this.modernList = [res];
-                this.listQuery.pageNum = 1;
-                this.listQuery.pageSize = 10;
-                this.total = 1;
-              }
-              this.loading = false;
-            })
-          }
-          this.treeEdit = false;
+          var id = data.sqlId;
+          this.getModernById({id: id}).then(res => {
+            if (res != null) {
+              this.modernList = [res];
+              this.listQuery.pageNum = 1;
+              this.listQuery.pageSize = 10;
+              this.total = 1;
+            }
+            this.loading = false;
+          })
         } else {
-          if (!this.treeEdit) {
-            this.loading = true;
-            var classificationId = data.sqlId;
-            this.getModernByClassificationId({
-              ...this.listQuery,
-              classificationId: classificationId,
-            }).then(res => {
-              if (res !== null) {
-                this.modernList = res.list;
-                this.listQuery.pageNum = res.pageNum;
-                this.listQuery.pageSize = res.pageSize;
-                this.total = res.total;
-              } else {
-                this.onSearch();
-              }
-              this.loading = false;
-            })
-          }
-          this.treeEdit = false;
+          var classificationId = data.sqlId;
+          this.getModernByClassificationId({
+            ...this.listQuery,
+            classificationId: classificationId,
+          }).then(res => {
+            if (res !== null) {
+              this.modernList = res.list;
+              this.listQuery.pageNum = res.pageNum;
+              this.listQuery.pageSize = res.pageSize;
+              this.total = res.total;
+            } else {
+              this.onSearch();
+            }
+            this.loading = false;
+          })
         }
       },
       onSearch() {
