@@ -114,8 +114,12 @@
           prop="publisher"
           label="出版社">
         </el-table-column>
-        <el-table-column label="操作" width="120" align="center">
+        <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
+            <el-button size="mini"
+                       type="text"
+                       @click="getDetail(scope.row.content)">查看
+            </el-button>
             <el-button size="mini"
                        type="text"
                        @click="showEditModernDialog(scope.row,true)">编辑
@@ -434,6 +438,12 @@
         }).catch(err => {
           this.exportLoading = false;
         })
+      },
+      getDetail(content) {
+        var a = document.createElement('a');
+        a.href = content;
+        a.target = '_blank';
+        a.click();
       },
     },
   }
