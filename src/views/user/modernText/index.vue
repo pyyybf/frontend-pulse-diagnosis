@@ -115,7 +115,6 @@
         },
         modernList: [],
         total: 0,
-        classificationList: [],
         loading: false,
       }
     },
