@@ -105,7 +105,7 @@
   import {mapActions} from 'vuex';
 
   export default {
-    name: "ancientTextList",
+    name: "AncientTextList",
     data() {
       return {
         classificationTreeData: [],
