@@ -65,11 +65,16 @@
         <el-card v-for="ancient in ancientList" class="box-card" shadow="never">
           <a @click="read(ancient.id)" style="color: #303133">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="8" class="demo-image__error">
                 <el-image
                   style="width: 100%;height:200px"
                   :src="ancient.cover"
-                  fit="contain"></el-image>
+                  fit="contain">
+                  <div slot="error" class="image-slot"
+                       style="line-height: 200px;text-align: center;background-color: #F2F6FC;color: #909399">
+                    暂无封面
+                  </div>
+                </el-image>
               </el-col>
               <el-col :span="16" style="text-align: left;height: 400px">
                 <el-form :model="ancient"

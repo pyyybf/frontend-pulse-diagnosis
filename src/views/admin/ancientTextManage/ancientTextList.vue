@@ -213,6 +213,7 @@
         'delAncientClassificationById',
         'delAncientById',
         'downloadAncient',
+        'uploadAncient',
       ]),
       reset() {
         this.ancientQuery = {

@@ -123,3 +123,11 @@ export const updateAncientByIdAPI = (id, data) => {
   })
 }
 
+export const uploadAncientAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/uploadAncient`,
+    method: 'POST',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}

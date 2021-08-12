@@ -13,6 +13,7 @@ import {
   createClassificationAPI,
   addAncientAPI,
   updateAncientByIdAPI,
+  uploadAncientAPI,
 } from "@/api/ancient";
 import {Message} from 'element-ui';
 
@@ -193,7 +194,7 @@ const ancient = {
     addAncient({}, data) {
       return new Promise((resolve, reject) => {
         addAncientAPI(data).then(response => {
-          console.log(response)
+          // console.log(response)
           if (response.data.success) {
             resolve(response.data.content)
           } else {
@@ -209,6 +210,20 @@ const ancient = {
     editAncient({}, data) {
       return new Promise((resolve, reject) => {
         updateAncientByIdAPI(data.id, data.ancientForm).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    uploadAncient({}, data) {
+      return new Promise((resolve, reject) => {
+        uploadAncientAPI(data).then(response => {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
