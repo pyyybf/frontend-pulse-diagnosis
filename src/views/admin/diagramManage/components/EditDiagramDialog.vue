@@ -46,13 +46,14 @@
           style="text-align: left">
           <el-button slot="trigger" size="medium" type="text" icon="el-icon-upload">选取文件</el-button>
           <br/>
-          <el-image v-if="diagramInfo.content" :src="diagramInfo.content" fit="contain" style="width:100%;height:400px"></el-image>
+          <el-image v-if="diagramInfo.content" :src="diagramInfo.content" fit="contain"
+                    style="width:100%;height:400px"></el-image>
         </el-upload>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="close(false)">取 消</el-button>
-      <el-button type="primary" @click="submit">确 定</el-button>
+      <el-button type="primary" :loading="loading" @click="submit">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -74,6 +75,7 @@
         fileList: [],
         ifChangeImg: false,
         file: null,
+        loading: false,
       }
     },
     watch: {
@@ -111,6 +113,7 @@
         this.closeEditDiagramDialog(ifSubmit);
       },
       submit() {
+        this.loading = true;
         this.checkClassification().then(() => {
           this.handleUploadImg(this.file).then(content => {
             if (this.edit) {
@@ -124,6 +127,7 @@
                   content: content
                 },
               }).then(res => {
+                this.loading = false;
                 this.close(true);
               }).catch(err => {
 
@@ -136,6 +140,7 @@
                 keyword: this.diagramInfo.keyword,
                 content: content
               }).then(res => {
+                this.loading = false;
                 this.close(true);
               }).catch(err => {
 
