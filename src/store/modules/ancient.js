@@ -9,6 +9,10 @@ import {
   delClassificationByIdAPI,
   delAncientByIdIdAPI,
   downloadAncientAPI,
+  getAllClassificationAPI,
+  createClassificationAPI,
+  addAncientAPI,
+  updateAncientByIdAPI,
 } from "@/api/ancient";
 import {Message} from 'element-ui';
 
@@ -149,6 +153,64 @@ const ancient = {
         downloadAncientAPI(data).then(response => {
           if (response.status === 200) {
             resolve(response.data)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    getAllAncientClassification({}) {
+      return new Promise((resolve, reject) => {
+        getAllClassificationAPI().then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    createAncientClassification({}, data) {
+      return new Promise((resolve, reject) => {
+        createClassificationAPI({name: data}).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          reject(error)
+        })
+      });
+    },
+    addAncient({}, data) {
+      return new Promise((resolve, reject) => {
+        addAncientAPI(data).then(response => {
+          console.log(response)
+          if (response.data.success) {
+            resolve(response.data.content)
+          } else {
+            Message.error(response.data.message)
+            reject()
+          }
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      });
+    },
+    editAncient({}, data) {
+      return new Promise((resolve, reject) => {
+        updateAncientByIdAPI(data.id, data.ancientForm).then(response => {
+          if (response.data.success) {
+            resolve(response.data.content)
           } else {
             Message.error(response.data.message)
             reject()

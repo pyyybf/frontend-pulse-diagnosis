@@ -37,7 +37,6 @@
           action="#"
           :http-request="handleUploadPdf"
           :multiple="false"
-          :limit="1"
           :on-change="handleChange"
           :on-exceed="handleExceed"
           :file-list="fileList"

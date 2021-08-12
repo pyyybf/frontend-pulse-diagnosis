@@ -18,14 +18,14 @@
       </el-button>
     </el-row>
     <el-carousel
-      indicator-position="outside"
+      indicator-position="none"
       :autoplay="false"
       height="550px"
       style="width:90%;margin-left:5%;margin-top:30px;text-align: center">
       <el-carousel-item v-for="page in pageList" :key="page.id">
         <div class="text-box" v-if="showText">
           <div style="text-align: center">
-            <p v-for="textItem in page.textList" :style="{fontWeight: textItem.type?'bold':''}">
+            <p v-for="textItem in page.textList">
               {{textItem.text}}
             </p>
           </div>

@@ -149,11 +149,15 @@
         style="text-align: right">
       </el-pagination>
     </el-col>
+    <EditAncientDialog :edit="ifEdit" :ancient-info="editAncientInfo"
+                      :edit-ancient-dialog-visible="editAncientDialogVisible"
+                      :close-edit-ancient-dialog="closeEditAncientDialog"/>
   </el-row>
 </template>
 
 <script>
   import {mapActions} from 'vuex';
+  import EditAncientDialog from "../ancientTextManage/components/EditAncientDialog";
 
   export default {
     name: "AncientTextList",
@@ -188,6 +192,9 @@
           version: '',
         },
       }
+    },
+    components: {
+      EditAncientDialog,
     },
     created() {
       this.getAncientClassificationTree().then(res => {

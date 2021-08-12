@@ -87,3 +87,39 @@ export const downloadAncientAPI = (data) => {
     responseType: 'blob',
   })
 }
+
+export const getAllClassificationAPI = () => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/getAllClassification`,
+    method: 'GET',
+  })
+}
+
+export const createClassificationAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/createClassification`,
+    method: 'POST',
+    params: {
+      ...data
+    }
+  })
+}
+
+export const addAncientAPI = (data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/addAncient`,
+    method: 'POST',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}
+
+export const updateAncientByIdAPI = (id, data) => {
+  return HttpRequest.request({
+    url: `${api.ancientPre}/updateAncientById/${id}`,
+    method: 'POST',
+    headers: {'Content-Type': 'multipart/form-data'},
+    data
+  })
+}
+
