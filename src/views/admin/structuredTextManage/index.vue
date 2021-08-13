@@ -1,11 +1,11 @@
 <template>
-  <h1>StructuredTextManage</h1>
+  <router-view></router-view>
 </template>
 
 <script>
-    export default {
-        name: "StructuredTextManage",
-    }
+  export default {
+    name: "StructuredTextManage",
+  }
 </script>
 
 <style scoped>

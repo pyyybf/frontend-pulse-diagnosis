@@ -262,8 +262,6 @@
       handleUpload(params) {
         this.importLoading = true;
         const _file = params.file;
-        var data = new FormData();
-        data.append("inputFile", this.file)
 
         // 通过 FormData 对象上传文件
         var formData = new FormData();

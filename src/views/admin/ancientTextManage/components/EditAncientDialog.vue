@@ -107,11 +107,11 @@
         this.closeEditAncientDialog(ifSubmit);
       },
       submit() {
-        this.loading = true;
         if (!this.edit && this.file === null) {
           this.$message.error('请上传文件')
           return
         }
+        this.loading = true;
         this.checkClassification().then(() => {
           const _file = this.file;
 

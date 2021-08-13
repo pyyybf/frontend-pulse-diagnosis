@@ -1,5 +1,5 @@
 <template>
-  <h1>AdminHome</h1>
+  <h1>管理员主页</h1>
 </template>
 
 <script>

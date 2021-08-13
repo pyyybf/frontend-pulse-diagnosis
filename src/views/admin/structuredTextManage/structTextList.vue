@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-col :span="6">
+    <el-col :span="8">
       <el-card
         shadow="never"
         :body-style="{padding:0}"
@@ -14,19 +14,33 @@
           default-expand-all
           @node-click="nodeClick">
           <span class="custom-tree-node" slot-scope="{ node, data }" style="width: 100%">
-            <span v-if="node.label.length<16" style="text-overflow:ellipsis; overflow:hidden;white-space: nowrap;">
+            <span v-if="node.label.length<20" style="text-overflow:ellipsis; overflow:hidden;white-space: nowrap;">
               {{ node.label }}
             </span>
             <el-tooltip v-else effect="dark" :content="node.label" placement="top">
               <span>
-                {{ node.label.substring(0,16)+'...' }}
+                {{ node.label.substring(0,20)+'...' }}
               </span>
             </el-tooltip>
+            <span>
+              <el-button
+                type="text"
+                size="mini"
+                icon="el-icon-edit"
+                @click="() => editTree(node,data)">
+              </el-button>
+              <el-button
+                type="text"
+                size="mini"
+                icon="el-icon-delete"
+                @click="() => delCatalog(node, data)">
+              </el-button>
+            </span>
           </span>
         </el-tree>
       </el-card>
     </el-col>
-    <el-col :span="18">
+    <el-col :span="16">
       <el-form :model="structQuery"
                class="demo-form-inline"
                label-position="right"
@@ -48,26 +62,42 @@
           <el-button type="primary" icon="el-icon-refresh-right" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
+      <el-row>
+        <el-button class="struct-manage-btn" type="primary" plain size="medium" icon="el-icon-plus"
+                   @click="showDetail(-1)">新建结构化文本
+        </el-button>
+        <el-upload
+          class="struct-manage-btn"
+          action="#"
+          :http-request="handleUpload"
+          :multiple="false"
+          :show-file-list="false">
+          <el-button type="primary" plain size="medium" icon="el-icon-upload" :loading="importLoading">批量导入</el-button>
+        </el-upload>
+        <el-button class="struct-manage-btn" type="primary" plain size="medium" icon="el-icon-download"
+                   :loading="exportLoading"
+                   @click="handleDownload">批量导出
+        </el-button>
+      </el-row>
       <el-skeleton v-if="loading" :rows="18" animated class="card-list"/>
       <div class="card-list" v-else>
-        <a v-for="struct in structList"
-           @click="showDetail(struct.id)"
-           style="color: black">
-          <el-card
-            class="box-card"
-            shadow="never"
-            :body-style="{padding:0}">
-            <div slot="header" class="card-title">
-              <div class="card-title-left"></div>
-              {{struct.name}}
-            </div>
-            <div class="card-text">
-              <p v-for="paragraph in struct.content.split('\n')"
-                 v-html="setKeyWord(paragraph)"
-                 style="margin: 0"></p>
-            </div>
-          </el-card>
-        </a>
+        <el-card
+          v-for="struct in structList"
+          class="box-card"
+          shadow="never"
+          :body-style="{padding:0}">
+          <div slot="header" class="card-title">
+            <div class="card-title-left"></div>
+            {{struct.name}}
+            <el-button class="card-title-btn" type="text" @click="delStruct(struct.id)">删除</el-button>
+            <el-button class="card-title-btn" type="text" @click="showDetail(struct.id)">编辑</el-button>
+          </div>
+          <div class="card-text">
+            <p v-for="paragraph in struct.content.split('\n')"
+               v-html="setKeyWord(paragraph)"
+               style="margin: 0"></p>
+          </div>
+        </el-card>
       </div>
       <el-pagination
         background
@@ -104,6 +134,8 @@
         total: 0,
         loading: false,
         curKeyword: '',
+        importLoading: false,
+        exportLoading: false,
       }
     },
     created() {
@@ -119,6 +151,11 @@
         'getCatalogTree',
         'getAllStruct',
         'getStructByCatalogId',
+        'delCatalogById',
+        'updateCatalogById',
+        'delStructById',
+        'downloadStruct',
+        'uploadStruct',
       ]),
       nodeClick(data) {
         this.loading = true;
@@ -175,12 +212,105 @@
       },
       showDetail(id) {
         this.$router.push({
-          path: '/user/structuredText/structTextDetail',
+          path: '/admin/structuredTextManage/structTextEdit',
           query: {
             structId: id,
           }
         });
-      }
+      },
+      editTree(node, data) {
+        // console.log('editTree', node, data)
+        this.treeEdit = true;
+        this.$prompt(`请输入新的目录名`, '修改', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          inputPlaceholder: data.label,
+        }).then(({value}) => {
+          if (!value) {
+            this.$message.error('修改失败，新名称不能为空')
+            return
+          }
+          this.updateCatalogById({
+            id: data.sqlId,
+            name: value
+          }).then(res => {
+            this.$message.success('修改成功');
+            this.getCatalogTree().then(res => {
+              this.catalogTree = res;
+            }).catch(err => {
+
+            })
+            this.onSearch();
+          }).catch(err => {
+
+          })
+        }).catch(() => {
+          // this.$message.info('未做修改');
+        });
+      },
+      delCatalog(node, data) {
+        // console.log(node, data)
+        if (data.children && data.children.length > 0) {
+          this.$message.error('当前目录不为空，无法删除');
+          return;
+        }
+        this.delCatalogById(data.sqlId).then(res => {
+          this.getCatalogTree().then(res => {
+            this.catalogTree = res;
+          }).catch(err => {
+
+          })
+        });
+      },
+      delStruct(id) {
+        this.delStructById(id).then(res => {
+          this.onSearch();
+        }).catch(err => {
+
+        })
+      },
+      handleDownload() {
+        this.exportLoading = true;
+        this.downloadStruct().then(res => {
+          // console.log(res)
+          var blob = res;
+          var fileName = '结构化文本' + new Date().getTime();
+          if (window.navigator.msSaveOrOpenBlob) {			// IE浏览器下
+            navigator.msSaveBlob(blob, fileName);
+          } else {
+            var link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(link.href);
+          }
+          this.exportLoading = false;
+        }).catch(err => {
+          alert(err)
+          this.exportLoading = false;
+        })
+      },
+      handleUpload(params) {
+        this.importLoading = true;
+        const _file = params.file;
+
+        // 通过 FormData 对象上传文件
+        var formData = new FormData();
+        formData.append("structFile", _file);
+
+        // 发起请求
+        this.uploadStruct(formData).then(res => {
+          this.getCatalogTree().then(res => {
+            this.catalogTree = res;
+          }).catch(err => {
+
+          })
+          this.onSearch();
+          this.importLoading = false;
+        }).catch(err => {
+          this.importLoading = false;
+        })
+      },
     },
   }
 </script>
@@ -224,6 +354,16 @@
 
   a:hover {
     cursor: pointer;
+  }
+
+  .struct-manage-btn {
+    float: left;
+    margin-left: 7px;
+  }
+
+  .card-title-btn {
+    float: right;
+    margin-right: 1em;
   }
 </style>
 

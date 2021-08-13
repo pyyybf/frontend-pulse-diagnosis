@@ -96,6 +96,21 @@ export default new Router({
           component: () => import('@/views/admin/structuredTextManage/index'),
           name: '结构化文本管理',
           meta: {title: '结构化文本管理', noCache: true},
+          redirect: '/admin/structuredTextManage/structTextList',
+          children: [
+            {
+              path: 'structTextList',
+              component: () => import('@/views/admin/structuredTextManage/structTextList'),
+              name: '结构化文本列表',
+              meta: {title: '结构化文本列表', noCache: true},
+            },
+            {
+              path: 'structTextEdit',
+              component: () => import('@/views/admin/structuredTextManage/structTextEdit'),
+              name: '结构化文本编辑',
+              meta: {title: '结构化文本编辑', noCache: true},
+            },
+          ]
         },
       ]
     },

@@ -1,5 +1,5 @@
 <template>
-  <h1>UserHome</h1>
+  <h1>用户主页</h1>
 </template>
 
 <script>
