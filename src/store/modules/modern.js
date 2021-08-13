@@ -15,7 +15,6 @@ import {
   downloadModernAPI,
   uploadModernAPI,
 } from "@/api/modern";
-import {Message} from 'element-ui';
 
 const modern = {
   state: {},
@@ -27,8 +26,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -41,8 +39,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -55,8 +52,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -69,8 +65,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -84,11 +79,11 @@ const modern = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            reject()
+            reject(error)
           })
       })
     },
@@ -99,11 +94,11 @@ const modern = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            reject()
+            reject(error)
           })
       })
     },
@@ -113,8 +108,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -127,8 +121,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -141,8 +134,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -155,8 +147,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -169,8 +160,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -183,8 +173,7 @@ const modern = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -198,12 +187,11 @@ const modern = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            Message.error("上传失败")
-            reject()
+            reject(error)
           })
       })
     },
@@ -213,8 +201,7 @@ const modern = {
           if (response.status === 200) {
             resolve(response.data)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject('下载失败')
           }
         }).catch(error => {
           reject(error)
@@ -225,16 +212,15 @@ const modern = {
       return new Promise((resolve, reject) => {
         uploadModernAPI(data)
           .then(response => {
-            console.log(response)
+            // console.log(response)
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            Message.error("上传失败")
-            reject()
+            reject(error)
           })
       })
     },

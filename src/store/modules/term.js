@@ -7,7 +7,6 @@ import {
   uploadTermAPI,
   downloadTermAPI,
 } from "@/api/term";
-import {Message} from 'element-ui';
 
 const term = {
   state: {},
@@ -19,11 +18,10 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
-        }).catch(err => {
-          reject()
+        }).catch(error => {
+          reject(error)
         })
       })
     },
@@ -33,11 +31,10 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
-        }).catch(err => {
-          reject()
+        }).catch(error => {
+          reject(error)
         })
       })
     },
@@ -47,8 +44,7 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -61,8 +57,7 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -75,8 +70,7 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -89,8 +83,7 @@ const term = {
           if (response.status === 200) {
             resolve(response.data)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject('下载失败')
           }
         }).catch(error => {
           reject(error)
@@ -103,8 +96,7 @@ const term = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)

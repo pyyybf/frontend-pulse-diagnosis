@@ -7,7 +7,6 @@ import {
   addRoleAPI,
   updateRoleByIdAPI,
 } from "@/api/admin";
-import {Message} from 'element-ui';
 
 const admin = {
   state: {},
@@ -20,8 +19,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -35,8 +33,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -50,8 +47,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -64,8 +60,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -78,8 +73,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -92,8 +86,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -106,8 +99,7 @@ const admin = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)

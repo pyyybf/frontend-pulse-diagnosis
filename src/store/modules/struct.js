@@ -12,7 +12,6 @@ import {
   downloadStructAPI,
   uploadStructAPI,
 } from "@/api/struct";
-import {Message} from 'element-ui';
 
 const struct = {
   state: {},
@@ -24,8 +23,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -38,8 +36,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -52,8 +49,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -66,8 +62,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -80,8 +75,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -94,8 +88,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -108,8 +101,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -122,8 +114,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -136,8 +127,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -150,8 +140,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -165,8 +154,7 @@ const struct = {
           if (response.status === 200) {
             resolve(response.data)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject('下载失败')
           }
         }).catch(error => {
           reject(error)
@@ -179,8 +167,7 @@ const struct = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)

@@ -3,7 +3,6 @@ import {
   registerAPI,
 } from "@/api/user";
 import {getToken, setToken, removeToken} from '@/utils/auth';
-import {Message} from 'element-ui';
 
 const user = {
   state: {
@@ -47,7 +46,7 @@ const user = {
           username: data.username.trim(),
           password: data.password
         }).then(response => {
-          console.log(response)
+          // console.log(response)
           if (response.data.success) {
             commit('set_userInfo', response.data.content)
             commit('set_userId', response.data.content.id)
@@ -57,11 +56,9 @@ const user = {
             commit('set_rolePermission', response.data.content.rolePermission.split(','))
             localStorage.setItem('username', data.username.trim())
             dispatch('setMenuList', response.data.content.rolePermission.split(','))
-            Message.success("登录成功")
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -86,11 +83,9 @@ const user = {
           localStorage.removeItem('userId')
           localStorage.removeItem('userInfo')
           localStorage.removeItem('menuList')
-          Message.success("登出成功")
           resolve()
         } catch (e) {
-          Message.error("登出失败")
-          reject()
+          reject(e.message)
         }
       });
     },
@@ -102,54 +97,17 @@ const user = {
           phone: data.phone,
           email: data.email,
         }).then(response => {
-          console.log('注册结果：', response)
+          // console.log('注册结果：', response)
           if (response.data.success) {
-            Message.success("注册成功")
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
         })
       });
     },
-    // resetPwd({}, data) {
-    //   return new Promise((resolve, reject) => {
-    //     resetPwdAPI({
-    //       email: data.email,
-    //       newPassword: data.newPassword,
-    //       verifyCode: data.verifyCode,
-    //     }).then(response => {
-    //       if (response.data.success) {
-    //         Message.success(response.data.content)
-    //         resolve()
-    //       } else {
-    //         Message.error(response.data.message)
-    //         reject()
-    //       }
-    //     }).catch(error => {
-    //       reject(error)
-    //     })
-    //   });
-    // },
-    // getUserInfoById({commit}, data) {
-    //   return new Promise((resolve, reject) => {
-    //     getUserInfoByIdAPI(data).then(response => {
-    //       if (response.data.success) {
-    //         // Message.success(response.data.content)
-    //         commit('set_userInfo', response.data.content)
-    //         resolve()
-    //       } else {
-    //         Message.error(response.data.message)
-    //         reject()
-    //       }
-    //     }).catch(error => {
-    //       reject(error)
-    //     })
-    //   });
-    // }
   }
 };
 export default user;

@@ -15,7 +15,6 @@ import {
   downloadDiagramAPI,
   uploadDiagramAPI,
 } from "@/api/diagram";
-import {Message} from 'element-ui';
 
 const diagram = {
   state: {},
@@ -27,8 +26,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -41,8 +39,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -55,8 +52,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -69,8 +65,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -83,8 +78,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -97,8 +91,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -111,8 +104,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -125,8 +117,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -139,8 +130,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -153,8 +143,7 @@ const diagram = {
           if (response.data.success) {
             resolve(response.data.content)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject(response.data.message)
           }
         }).catch(error => {
           reject(error)
@@ -168,12 +157,11 @@ const diagram = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            Message.error("上传失败")
-            reject()
+            reject(error)
           })
       })
     },
@@ -184,11 +172,11 @@ const diagram = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            reject()
+            reject(error)
           })
       })
     },
@@ -199,11 +187,11 @@ const diagram = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            reject()
+            reject(error)
           })
       })
     },
@@ -213,8 +201,7 @@ const diagram = {
           if (response.status === 200) {
             resolve(response.data)
           } else {
-            Message.error(response.data.message)
-            reject()
+            reject('下载失败')
           }
         }).catch(error => {
           reject(error)
@@ -228,12 +215,11 @@ const diagram = {
             if (response.data.success) {
               resolve(response.data.content)
             } else {
-              reject()
+              reject(response.data.message)
             }
           })
           .catch(error => {
-            Message.error("上传失败")
-            reject()
+            reject(error)
           })
       })
     },
