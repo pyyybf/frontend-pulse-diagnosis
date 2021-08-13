@@ -142,6 +142,21 @@ export default new Router({
           component: () => import('@/views/user/structuredText/index'),
           name: '结构化文本阅读',
           meta: {title: '结构化文本阅读', noCache: true},
+          redirect: '/user/structuredText/structTextList',
+          children: [
+            {
+              path: 'structTextList',
+              component: () => import('@/views/user/structuredText/structTextList'),
+              name: '结构化文本列表',
+              meta: {title: '结构化文本列表', noCache: true},
+            },
+            {
+              path: 'structTextDetail',
+              component: () => import('@/views/user/structuredText/structTextDetail'),
+              name: '结构化文本阅读',
+              meta: {title: '结构化文本阅读', noCache: true},
+            },
+          ]
         },
         {
           path: 'term',

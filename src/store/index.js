@@ -9,6 +9,7 @@ import term from './modules/term';
 import diagram from "./modules/diagram";
 import modern from "./modules/modern";
 import ancient from "./modules/ancient";
+import struct from "./modules/struct";
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     diagram,
     modern,
     ancient,
+    struct,
   },
   state: {},
   mutations: {},

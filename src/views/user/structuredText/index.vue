@@ -1,10 +1,9 @@
 <template>
-  <h1>StructuredText</h1>
+  <router-view></router-view>
 </template>
 
-<script>
-  export default {
-    name: "StructuredText",
+<script>export default {
+    name: "StructuredText"
   }
 </script>
 
