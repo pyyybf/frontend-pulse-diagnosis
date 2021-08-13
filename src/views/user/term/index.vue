@@ -286,7 +286,6 @@
   .box-card {
     width: 100%;
     margin-bottom: 10px;
-    font-family: 新宋体;
     padding: 0;
   }
 
@@ -306,6 +305,8 @@
   }
 
   .card-text {
+    font-family: 新宋体;
+    font-size: 0.9em;
     white-space: pre-line;
     margin: 1em;
     padding: 0.5em;
