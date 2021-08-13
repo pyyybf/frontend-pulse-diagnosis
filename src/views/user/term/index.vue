@@ -11,6 +11,36 @@
       </el-form-item>
     </el-form>
     <div id="container"></div>
+    <br/>
+    <el-skeleton v-if="loading" :rows="18" animated class="card-list"/>
+    <div class="card-list" v-else>
+      <el-card
+        v-for="struct in structList"
+        class="box-card"
+        shadow="never"
+        :body-style="{padding:0}">
+        <div slot="header" class="card-title">
+          <div class="card-title-left"></div>
+          {{struct.name}}
+        </div>
+        <div class="card-text">
+          <p v-for="paragraph in struct.content.split('\n')"
+             v-html="setKeyWord(paragraph)"
+             style="text-indent: 2em;margin: 0"></p>
+        </div>
+      </el-card>
+    </div>
+    <el-pagination
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      layout="total, sizes, prev, pager, next, jumper"
+      :page-size="listQuery.pageSize"
+      :page-sizes="[5,10,15]"
+      :current-page.sync="listQuery.pageNum"
+      :total="total"
+      style="text-align: right">
+    </el-pagination>
   </div>
 </template>
 
@@ -92,19 +122,42 @@
           ],
         },
         graph: {},
+        structList: [],
+        listQuery: {
+          pageNum: 1,
+          pageSize: 10,
+        },
+        total: 0,
+        loading: false,
+        curKeyword: '浮脉',
       }
     },
     mounted() {
       this.initG6();
+      this.getAllStruct({
+        name: '',
+        keyword: this.curKeyword,
+        ...this.listQuery,
+      }).then(res => {
+        this.structList = res.list;
+        this.listQuery.pageNum = res.pageNum;
+        this.listQuery.pageSize = res.pageSize;
+        this.total = res.total;
+        this.loading = false;
+      }).catch(err => {
+
+      })
     },
     methods: {
       ...mapActions([
         'getTermByKeyword',
+        'getAllStruct',
       ]),
       onSearch() {
         this.graph.clear();
+        this.curKeyword = this.termQuery.keyword !== '' ? this.termQuery.keyword : '浮脉';
         this.getTermByKeyword(
-          this.termQuery.keyword ? this.termQuery : {keyword: '浮脉'}
+          {keyword: this.curKeyword}
         ).then(res => {
           var newNodes = [];
           for (let id in res) {
@@ -123,7 +176,32 @@
             }),
           });
           this.graph.render()
+          this.getAllStruct({
+            name: '',
+            keyword: this.curKeyword,
+            ...this.listQuery,
+          }).then(res => {
+            this.structList = res.list;
+            this.listQuery.pageNum = res.pageNum;
+            this.listQuery.pageSize = res.pageSize;
+            this.total = res.total;
+            this.loading = false;
+          }).catch(err => {
+
+          })
         })
+      },
+      setKeyWord(paragraph) {
+        return this.curKeyword !== '' ? paragraph.replace(this.curKeyword, `<span style="background-color: #409EFF">${this.curKeyword}</span>`) : paragraph;
+      },
+      handleSizeChange(val) {
+        this.listQuery.pageNum = 1;
+        this.listQuery.pageSize = val;
+        this.onSearch();
+      },
+      handleCurrentChange(val) {
+        this.listQuery.pageNum = val;
+        this.onSearch();
       },
       initG6() {
         var that = this;
@@ -197,5 +275,45 @@
   #container {
     height: 350px;
     border: 1px solid #409EFF;
+  }
+
+  .card-list {
+    /*margin-top: 10px;*/
+    padding: 7px;
+    text-align: left;
+  }
+
+  .box-card {
+    width: 100%;
+    margin-bottom: 10px;
+    font-family: 新宋体;
+    padding: 0;
+  }
+
+  .card-title {
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    background-color: #d9ecff;
+  }
+
+  .card-title-left {
+    height: 100%;
+    width: 0.5em;
+    background-color: #409EFF;
+    float: left;
+    margin-right: 1em;
+  }
+
+  .card-text {
+    white-space: pre-line;
+    margin: 1em;
+    padding: 0.5em;
+    border: 1px solid #d9ecff;
+  }
+
+  .search-text {
+    background-color: #F56C6C;
+    color: red;
   }
 </style>
