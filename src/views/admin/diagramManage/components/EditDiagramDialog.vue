@@ -113,6 +113,10 @@
         this.closeEditDiagramDialog(ifSubmit);
       },
       submit() {
+        if (!this.diagramInfo.name || !this.diagramInfo.classificationId || !this.diagramInfo.provenance || !this.diagramInfo.keyword) {
+          this.$message.error('请完整填写信息')
+          return
+        }
         this.loading = true;
         this.checkClassification().then(() => {
           this.handleUploadImg(this.file).then(content => {
@@ -130,7 +134,7 @@
                 this.loading = false;
                 this.close(true);
               }).catch(err => {
-
+                this.$message.error('更新失败')
               })
             } else {
               this.addDiagram({
@@ -143,9 +147,11 @@
                 this.loading = false;
                 this.close(true);
               }).catch(err => {
-
+                this.$message.error('新增失败')
               })
             }
+          }).catch(err => {
+            this.$message.error('图片上传失败')
           })
         })
       },

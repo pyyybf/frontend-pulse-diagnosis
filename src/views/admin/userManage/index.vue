@@ -225,7 +225,7 @@
         this.delUserById(id).then(res => {
           this.onSearch();
         }).catch(err => {
-
+          this.$message.error('删除失败');
         })
       },
       showEditUserDialog(info) {

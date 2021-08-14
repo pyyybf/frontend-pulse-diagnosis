@@ -75,13 +75,21 @@
         return path.name1 + (path.name2 ? ` / ${path.name2}` : '') + (path.name3 ? ` / ${path.name3}` : '') + (path.name4 ? ` / ${path.name4}` : '')
       },
       handleSubmit() {
+        if (!this.structInfo.structCatalogId || !this.structInfo.name || !this.structInfo.content) {
+          this.$message.error('请完整填写信息')
+          return
+        }
         if (this.structId > 0) {
           this.updateStructById(this.structInfo).then(res => {
             this.back()
+          }).catch(err => {
+            this.$message.error('更新失败')
           })
         } else {
           this.addStruct(this.structInfo).then(res => {
             this.back()
+          }).catch(err => {
+            this.$message.error('新增失败')
           })
         }
       },

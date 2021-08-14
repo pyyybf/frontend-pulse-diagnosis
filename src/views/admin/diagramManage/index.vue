@@ -231,6 +231,8 @@
             this.getDiagramClassificationTree().then(resTree => {
               this.classificationTreeData = resTree;
             });
+          }).catch(err => {
+            this.$message.error('删除失败')
           });
         } else {
           this.delDiagramById(data.sqlId).then(res => {
@@ -238,6 +240,8 @@
               this.classificationTreeData = resTree;
               this.onSearch();
             });
+          }).catch(err => {
+            this.$message.error('删除失败')
           });
         }
       },
@@ -321,6 +325,7 @@
           })
           this.onSearch();
         }).catch(err => {
+          this.$message.error('图片上传失败')
           this.importLoading = false;
         })
       },
@@ -344,6 +349,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
+          this.$message.error('下载失败')
           this.exportLoading = false;
         })
       },
@@ -354,6 +360,8 @@
             this.classificationTreeData = resTree;
             this.onSearch();
           });
+        }).catch(err => {
+          this.$message.error('删除失败')
         });
       },
       showEditDiagramDialog(info, ifEdit) {

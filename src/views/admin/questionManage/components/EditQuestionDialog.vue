@@ -99,6 +99,10 @@
         this.closeEditQuestionDialog(ifSubmit);
       },
       submit() {
+        if (!this.questionInfo.knowledgePoint || !this.questionInfo.questionStem || !this.questionInfo.answer) {
+          this.$message.error('请完整填写信息')
+          return
+        }
         if (this.edit) {
           this.editQuestion({
             id: this.questionInfo.id,
@@ -116,7 +120,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('更新失败');
           })
         } else {
           this.addQuestion({
@@ -132,7 +136,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('新增失败');
           })
         }
       },

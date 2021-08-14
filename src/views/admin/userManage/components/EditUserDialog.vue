@@ -60,6 +60,10 @@
         this.closeEditUserDialog(ifSubmit);
       },
       submit() {
+        if (!this.userInfo.username || !this.userInfo.phone || !this.userInfo.email || !this.userInfo.password || !this.userInfo.roleId) {
+          this.$message.error('请完整填写信息')
+          return
+        }
         this.editUser({
           id: this.userInfo.id,
           userForm: {
@@ -72,7 +76,7 @@
         }).then(res => {
           this.close(true)
         }).catch(err => {
-
+          this.$message.error('修改失败');
         })
       },
     },

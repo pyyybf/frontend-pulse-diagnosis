@@ -93,10 +93,6 @@
         'editModern',
         'uploadModernPdf',
       ]),
-      showFileList() {
-        console.log(this.fileList)
-        // console.log('111111111111')
-      },
       close(ifSubmit) {
         this.classificationId = [];
         this.modernInfo = {
@@ -111,6 +107,14 @@
         this.closeEditModernDialog(ifSubmit);
       },
       submit() {
+        if (!this.modernInfo.name || !this.modernInfo.classificationId || !this.modernInfo.author || !this.modernInfo.publisher) {
+          this.$message.error('请完整填写信息')
+          return
+        }
+        if (!this.edit && !this.file) {
+          this.$message.error('请上传文件')
+          return
+        }
         this.checkClassification().then(() => {
           if (this.file) {
             this.handleUploadPdf(this.file).then(res => {
@@ -178,7 +182,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('更新失败')
           })
         } else {
           this.addModern({
@@ -191,7 +195,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('新增失败')
           })
         }
       },

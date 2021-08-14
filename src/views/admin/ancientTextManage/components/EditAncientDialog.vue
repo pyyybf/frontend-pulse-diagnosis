@@ -107,9 +107,13 @@
         this.closeEditAncientDialog(ifSubmit);
       },
       submit() {
+        if (!this.ancientInfo.name || !this.ancientInfo.classificationId || !this.ancientInfo.author || !this.ancientInfo.version) {
+          this.$message.error('请完整填写信息');
+          return;
+        }
         if (!this.edit && this.file === null) {
-          this.$message.error('请上传文件')
-          return
+          this.$message.error('请上传文件');
+          return;
         }
         this.loading = true;
         this.checkClassification().then(() => {
@@ -131,14 +135,16 @@
               this.loading = false;
               this.close(true);
             }).catch(err => {
-              alert()
+              this.loading = false;
+              this.$message.error('更新失败')
             })
           } else {
             this.addAncient(formData).then(res => {
               this.loading = false;
               this.close(true);
             }).catch(err => {
-              alert()
+              this.loading = false;
+              this.$message.error('新增失败')
             })
           }
         })
@@ -150,6 +156,7 @@
               this.ancientInfo.classificationId = res;
               resolve()
             }).catch(err => {
+              this.$message.error('分类添加失败')
               reject()
             })
           } else {
@@ -166,36 +173,6 @@
         this.handleChange({raw: files[0]}, fileList);
       },
       handleUploadZip(file) {
-      },
-      handleUpdateOrAdd(info) {
-        if (this.edit) {
-          this.editAncient({
-            id: this.ancientInfo.id,
-            ancientForm: {
-              name: this.ancientInfo.name,
-              classificationId: this.ancientInfo.classificationId,
-              author: this.ancientInfo.author,
-              version: this.ancientInfo.version,
-              cover: info ? info.cover : null,
-            },
-          }).then(res => {
-            this.close(true);
-          }).catch(err => {
-
-          })
-        } else {
-          this.addAncient({
-            name: this.ancientInfo.name,
-            classificationId: this.ancientInfo.classificationId,
-            author: this.ancientInfo.author,
-            version: this.ancientInfo.version,
-            cover: info.cover,
-          }).then(res => {
-            this.close(true);
-          }).catch(err => {
-
-          })
-        }
       },
     }
   }

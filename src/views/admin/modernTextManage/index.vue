@@ -251,7 +251,7 @@
               })
               this.onSearch();
             }).catch(err => {
-
+              this.$message.error('修改失败');
             })
           } else {
             this.updateModernNameById({
@@ -335,6 +335,8 @@
             this.getModernClassificationTree().then(resTree => {
               this.classificationTreeData = resTree;
             });
+          }).catch(err=>{
+            this.$message.error('删除失败')
           });
         } else {
           this.delModernById(data.sqlId).then(res => {
@@ -342,6 +344,8 @@
               this.classificationTreeData = resTree;
               this.onSearch();
             });
+          }).catch(err=>{
+            this.$message.error('删除失败')
           });
         }
       },
@@ -351,6 +355,8 @@
           this.getModernClassificationTree().then(resTree => {
             this.classificationTreeData = resTree;
             this.onSearch();
+          }).catch(err=>{
+            this.$message.error('删除失败')
           });
         });
       },
@@ -412,6 +418,7 @@
           })
           this.onSearch();
         }).catch(err => {
+          this.$message.error('上传失败')
           this.importLoading = false;
         })
       },
@@ -435,6 +442,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
+          this.$message.error('下载失败')
           this.exportLoading = false;
         })
       },

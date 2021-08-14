@@ -80,6 +80,10 @@
         this.closeEditRoleDialog(ifSubmit);
       },
       submit() {
+        if (!this.roleInfo.name || !this.roleInfo.scene) {
+          this.$message.error('请完整填写信息')
+          return
+        }
         this.permissionList.sort(function (x, y) {
           return x - y;
         });
@@ -91,7 +95,7 @@
         if (this.edit) {
           this.editRole({
             id: this.roleInfo.id,
-            roleForm:{
+            roleForm: {
               name: this.roleInfo.name,
               scene: this.roleInfo.scene,
               permission: this.roleInfo.permission,
@@ -99,7 +103,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('更新失败');
           })
         } else {
           this.addRole({
@@ -109,7 +113,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('新增失败');
           })
         }
       },

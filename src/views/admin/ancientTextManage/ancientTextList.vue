@@ -150,8 +150,8 @@
       </el-pagination>
     </el-col>
     <EditAncientDialog :edit="ifEdit" :ancient-info="editAncientInfo"
-                      :edit-ancient-dialog-visible="editAncientDialogVisible"
-                      :close-edit-ancient-dialog="closeEditAncientDialog"/>
+                       :edit-ancient-dialog-visible="editAncientDialogVisible"
+                       :close-edit-ancient-dialog="closeEditAncientDialog"/>
   </el-row>
 </template>
 
@@ -277,6 +277,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
+          this.$message.error('下载失败')
           this.exportLoading = false;
         })
       },
@@ -287,7 +288,6 @@
         // 通过 FormData 对象上传文件
         var formData = new FormData();
         formData.append("zipFile", _file);
-        // console.log('formData', formData)
 
         // 发起请求
         this.uploadAncient(formData).then(res => {
@@ -298,6 +298,7 @@
           })
           this.onSearch();
         }).catch(err => {
+          this.$message.error('上传失败')
           this.importLoading = false;
         })
       },
@@ -312,6 +313,8 @@
             this.getAncientClassificationTree().then(resTree => {
               this.classificationTreeData = resTree;
             });
+          }).catch(err => {
+            this.$message.error('删除失败')
           });
         } else {
           this.delAncientById(data.sqlId).then(res => {
@@ -319,6 +322,8 @@
               this.classificationTreeData = resTree;
               this.onSearch();
             });
+          }).catch(err => {
+            this.$message.error('删除失败')
           });
         }
       },
@@ -329,6 +334,8 @@
             this.classificationTreeData = resTree;
             this.onSearch();
           });
+        }).catch(err => {
+          this.$message.error('删除失败')
         });
       },
       showEditAncientDialog(info, ifEdit) {
@@ -364,8 +371,8 @@
         if (ifSubmit) {
           this.getAncientClassificationTree().then(res => {
             this.classificationTreeData = res;
+            this.onSearch();
           })
-          this.onSearch();
         }
       },
       nodeClick(data) {

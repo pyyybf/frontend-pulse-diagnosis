@@ -242,7 +242,7 @@
             })
             this.onSearch();
           }).catch(err => {
-
+            this.$message.error('更新失败');
           })
         }).catch(() => {
           // this.$message.info('未做修改');
@@ -258,7 +258,7 @@
           this.getCatalogTree().then(res => {
             this.catalogTree = res;
           }).catch(err => {
-
+            this.$message.error('删除失败');
           })
         });
       },
@@ -266,7 +266,7 @@
         this.delStructById(id).then(res => {
           this.onSearch();
         }).catch(err => {
-
+          this.$message.error('删除失败');
         })
       },
       handleDownload() {
@@ -286,7 +286,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
-          alert(err)
+          this.$message.error('下载失败');
           this.exportLoading = false;
         })
       },
@@ -308,6 +308,7 @@
           this.onSearch();
           this.importLoading = false;
         }).catch(err => {
+          this.$message.error('上传失败');
           this.importLoading = false;
         })
       },

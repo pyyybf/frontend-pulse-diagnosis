@@ -272,6 +272,7 @@
           this.onSearch();
           this.importLoading = false;
         }).catch(err => {
+          this.$message.error('上传失败');
           this.importLoading = false;
         })
       },
@@ -295,6 +296,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
+          this.$message.error('下载失败');
           this.exportLoading = false;
         })
       },

@@ -170,7 +170,7 @@
           ...this.termQuery,
           ...this.listQuery,
         }).then(res => {
-          console.log(res)
+          // console.log(res)
           this.tableData = res.list;
           this.listQuery.pageNum = res.pageNum;
           this.listQuery.pageSize = res.pageSize;
@@ -187,7 +187,7 @@
         this.delTermById(id).then(res => {
           this.onSearch();
         }).catch(err => {
-
+          this.$message.error('删除失败');
         })
       },
       showEditTermDialog(info, ifEdit) {
@@ -242,6 +242,7 @@
           this.onSearch();
           this.importLoading = false;
         }).catch(err => {
+          this.$message.error('上传失败');
           this.importLoading = false;
         })
       },
@@ -265,6 +266,7 @@
           }
           this.exportLoading = false;
         }).catch(err => {
+          this.$message.error('下载失败');
           this.exportLoading = false;
         })
       },

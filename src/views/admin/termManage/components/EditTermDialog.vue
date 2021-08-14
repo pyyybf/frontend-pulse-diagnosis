@@ -39,6 +39,8 @@
       closeEditTermDialog: Function,
       edit: Boolean,
     },
+
+
     data() {
       return {}
     },
@@ -74,7 +76,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('更新失败');
           })
         } else {
           this.addTerm({
@@ -86,7 +88,7 @@
           }).then(res => {
             this.close(true);
           }).catch(err => {
-
+            this.$message.error('新增失败');
           })
         }
       },
