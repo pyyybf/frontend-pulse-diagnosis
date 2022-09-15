@@ -1,6 +1,6 @@
 # pulse-diagnosis-frontend
 
-> 
+Back-end: https://github.com/pyyybf/backend-pulse-diagnosis
 
 ## Build Setup
 
